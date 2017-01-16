@@ -25,11 +25,11 @@
 <body>
 
 <div class="container">
-    <h2 class="form-heading">Скоро тут будут отображаться лучшие рестораны мира. Оставайтесь с нами.</h2>
+    <h2 class="form-heading">Скоро вы сможете добавлять рестораны. Оставайтесь с нами.</h2>
     <form method="GET" action="${pageContext.request.contextPath}/logout" class="form-signin">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Выход</button>
     </form>
-    <h4 class="text-center"><a href="${pageContext.request.contextPath}/views/content/administration/add-restaurant.jsp">Добавить ресторан</a></h4>
+
 
 </div>
 <!-- /container -->

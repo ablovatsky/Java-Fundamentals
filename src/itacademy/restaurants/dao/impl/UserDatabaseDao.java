@@ -23,7 +23,7 @@ public class UserDatabaseDao implements UserDao {
 
     @Override
     public User getUserByNameAndPassword(String username, String password) throws ExceptionDao {
-        try(Connection connection = new MySqlConnection().getConnection()) {
+        try(Connection connection = MySqlConnection.getConnection()) {
             String sqlQuery = "SELECT * FROM `users`  WHERE `username` = ? AND `password` = ?";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, username);
@@ -45,7 +45,7 @@ public class UserDatabaseDao implements UserDao {
 
     @Override
     public Set<Role> getUserRoles(User user) throws ExceptionDao {
-        try(Connection connection = new MySqlConnection().getConnection()) {
+        try(Connection connection = MySqlConnection.getConnection()) {
             String sqlQuery = "SELECT roles.role FROM roles INNER JOIN users_roles WHERE roles.id = users_roles.role_id AND users_roles.user_id = ?";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, user.getId());
@@ -64,11 +64,10 @@ public class UserDatabaseDao implements UserDao {
 
     @Override
     public void add(User user) throws ExceptionDao{
-        Connection connection = new MySqlConnection().getConnection();
+        Connection connection = MySqlConnection.getConnection();
         try{
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             connection.setAutoCommit(false);
-            long newUserId = 0;
             String sqlQuery = "INSERT INTO `users` (`username`, `password`) VALUES (?, ?)";
             try(PreparedStatement statementUsers = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
                 statementUsers.setString(1, user.getUsername());
@@ -76,30 +75,23 @@ public class UserDatabaseDao implements UserDao {
                 statementUsers.executeUpdate();
                 try (ResultSet resultSet = statementUsers.getGeneratedKeys()) {
                     if (resultSet.next()) {
-                        newUserId = resultSet.getLong(1);
+                        user.setId(resultSet.getLong(1));
                     }
                 }
             }
             sqlQuery = "INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES (?, ?)";
             try(PreparedStatement statementUsersRoles = connection.prepareStatement(sqlQuery)) {
-                statementUsersRoles.setLong(1, newUserId);
+                statementUsersRoles.setLong(1, user.getId());
                 statementUsersRoles.setLong(2, new RoleDatabaseDao().getIdRoleByName("user"));
                 statementUsersRoles.executeUpdate();
             }
-            connection.commit();
+            MySqlConnection.commitConnection(connection);
+            user.setRoles(getUserRoles(user));
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException e1) {
-                throw new ExceptionDao("", e1);
-            }
-            throw new ExceptionDao("", e);
+            MySqlConnection.rollbackConnection(connection);
+            throw new ExceptionDao("",e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new ExceptionDao("", e);
-            }
+            MySqlConnection.closeConnection(connection);
         }
     }
 

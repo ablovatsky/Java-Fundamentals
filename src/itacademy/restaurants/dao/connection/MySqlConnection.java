@@ -13,14 +13,21 @@ import java.util.Properties;
  */
 public class MySqlConnection {
 
-    private String driverClassName;
-    private String username;
-    private String password;
-    private String url;
+    private static Properties props;
 
-    public Connection getConnection() throws NullPointerException, ExceptionDao {
+    private static String driverClassName;
+    private static String username;
+    private static String password;
+    private static String url;
+
+    public MySqlConnection() throws ExceptionDao {
+
+    }
+
+    public static Connection getConnection() throws NullPointerException, ExceptionDao {
+        init();
         try {
-            readConfig();
+
             Class.forName(driverClassName);
             return DriverManager.getConnection(url, username, password);
         } catch (SQLException | ClassNotFoundException e) {
@@ -28,27 +35,53 @@ public class MySqlConnection {
         }
     }
 
-    private void readConfig() throws ExceptionDao {
-        Properties props = new Properties();
+    public static void closeConnection(Connection connection) throws ExceptionDao {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new ExceptionDao("",e);
+        }
+    }
 
-        String propertyFile = "e:\\Java\\restaurants\\src\\itacademy\\resources\\database.properties";
+    public static void commitConnection(Connection connection) throws ExceptionDao {
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            throw new ExceptionDao("",e);
+        }
+    }
 
-        String protocol, subprotocol, host, dbName;
-        int port;
+    public static void rollbackConnection(Connection connection) throws ExceptionDao {
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            throw new ExceptionDao("",e);
+        }
+    }
+
+    private static void init() throws ExceptionDao {
+        readConfig();
+        driverClassName = props.getProperty("driverClassName");
+        username = props.getProperty("username");
+        password = props.getProperty("password");
+        url = String.format("%s:%s://%s:%d/%s", props.getProperty("protocol"),
+                                                props.getProperty("subprotocol"),
+                                                props.getProperty("host"),
+                                                Integer.valueOf(props.getProperty("port")),
+                                                props.getProperty("dbName"));
+    }
+    private static void readConfig() throws ExceptionDao {
+        props = new Properties();
+        //String propertyFile = "e:\\Java\\restaurants\\src\\itacademy\\resources\\database.properties";
+        String propertyFile = "d:\\11.Course\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
+
         try {
             props.load(new FileInputStream(new File(propertyFile)));
         } catch (IOException e) {
             throw new ExceptionDao("", e);
         }
-        driverClassName = props.getProperty("driverClassName");
-        username = props.getProperty("username");
-        password = props.getProperty("password");
-        protocol = props.getProperty("protocol");
-        subprotocol = props.getProperty("subprotocol");
-        host = props.getProperty("host");
-        port = Integer.valueOf(props.getProperty("port"));
-        dbName = props.getProperty("dbName");
-        url = String.format("%s:%s://%s:%d/%s", protocol, subprotocol, host, port, dbName);
     }
+
+
 }
 

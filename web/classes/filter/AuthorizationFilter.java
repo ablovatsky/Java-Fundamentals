@@ -8,12 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by aVa on 14.01.2017.
  */
 @WebFilter(urlPatterns = "/views/content/*")
-public class AuthenticationFilter implements Filter {
+public class AuthorizationFilter implements Filter {
+
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,9 +28,19 @@ public class AuthenticationFilter implements Filter {
         String uri = ((HttpServletRequest) servletRequest).getRequestURI();
         HttpSession session = ((HttpServletRequest) servletRequest).getSession();
         User user = (User) session.getAttribute("USER");
+        Set<AuthenticationRoles> roles = new HashSet<>();
         if (user != null) {
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
+            if (uri.contains("views/content/administration/")) {
+                roles.add(AuthenticationRoles.USER);
+                roles.add(AuthenticationRoles.ADMIN);
+            } else if (uri.contains("views/content/")) {
+                roles.add(AuthenticationRoles.USER);
+
+            }
+            if (new Authentication<>().isAccess(user, roles)) {
+                filterChain.doFilter(servletRequest, servletResponse);
+                return;
+            }
         }
         ((HttpServletResponse) servletResponse).sendRedirect("/views/login.jsp");
     }

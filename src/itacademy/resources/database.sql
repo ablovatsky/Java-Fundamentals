@@ -44,11 +44,17 @@ CREATE TABLE `users_roles` (
   `user_id`    BIGINT(20)  NOT NULL,
   `role_id`    BIGINT(20)  NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
   FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 INSERT INTO `users_roles`(user_id, role_id) VALUES ('1', '2');
+UNLOCK TABLES;
+INSERT INTO `users_roles`(user_id, role_id) VALUES ('1', '1');
 UNLOCK TABLES;
 
 

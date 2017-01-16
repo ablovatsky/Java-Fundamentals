@@ -38,8 +38,7 @@ public class RegistrationServlet extends HttpServlet {
             try {
                 userDatabaseService.add(user);
                 session.setAttribute("USER", user);
-                RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/views/content/restaurants.jsp");
-                requestDispatcher.forward(req, resp);
+                resp.sendRedirect("/views/content/restaurants.jsp");
 
             } catch (ExceptionService | ExceptionDao | SQLException exceptionService) {
                 exceptionService.printStackTrace();

@@ -16,10 +16,9 @@ import java.util.Set;
  */
 public class RoleDatabaseDao implements RoleDao {
 
-
     @Override
     public Long getIdRoleByName(String name) throws ExceptionDao {
-        try(Connection connection = new MySqlConnection().getConnection()) {
+        try(Connection connection = MySqlConnection.getConnection()) {
             String strSql = "SELECT `id` FROM `roles` WHERE `role` LIKE ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setString(1, name);
@@ -35,7 +34,7 @@ public class RoleDatabaseDao implements RoleDao {
     }
 
     @Override
-    public void add(Role model) throws ExceptionDao, SQLException {
+    public void add(Role model) {
 
     }
 

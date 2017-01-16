@@ -1,6 +1,6 @@
 package itacademy.restaurants.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Created by aVa on 06.01.2017.
@@ -9,7 +9,7 @@ public class Comment extends Model {
 
     private String comment;
 
-    private Date date;
+    private LocalDate date;
 
     private User user;
 
@@ -21,7 +21,7 @@ public class Comment extends Model {
         this.restaurant = restaurant;
     }
 
-    public Comment(long id, String comment, Date date, User user, Restaurant restaurant) {
+    public Comment(long id, String comment, LocalDate date, User user, Restaurant restaurant) {
         super(id);
         this.comment = comment;
         this.date = date;
@@ -37,11 +37,11 @@ public class Comment extends Model {
         this.comment = comment;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

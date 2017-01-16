@@ -39,8 +39,7 @@ public class LoginServlet extends HttpServlet {
         }
         if (user != null) {
             session.setAttribute("USER", user);
-            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/views/content/restaurants.jsp");
-            requestDispatcher.forward(req, resp);
+            resp.sendRedirect("/views/content/restaurants.jsp");
             return;
         }
         resp.sendRedirect("/views/login.jsp?error=error");
