@@ -18,7 +18,7 @@ import java.sql.SQLException;
 /**
  * Created by aVa on 14.01.2017.
  */
-@WebServlet(urlPatterns = "/registration")
+@WebServlet(urlPatterns = "/registration", name = "registration")
 public class RegistrationServlet extends HttpServlet {
 
     private UserDatabaseService userDatabaseService;

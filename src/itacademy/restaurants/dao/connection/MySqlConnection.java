@@ -3,6 +3,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import itacademy.restaurants.dao.ExceptionDao;
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,27 +14,36 @@ import java.util.Properties;
 /**
  * Created by aVa on 10.01.2017.
  */
-public class MySqlConnection {
+public abstract class MySqlConnection {
 
-    private static Properties props;
-
+    private static final DataSource dataSource = init();
     private static String driverClassName;
     private static String username;
     private static String password;
     private static String url;
 
-    public MySqlConnection() throws ExceptionDao {
-
+    private static DataSource init() throws ExceptionDao {
+        readConfig();
+        PoolProperties poolProperties = new PoolProperties();
+        poolProperties.setTestOnConnect(true);
+        poolProperties.setMaxActive(100);
+        poolProperties.setMaxIdle(30);
+        poolProperties.setMaxWait(1000);
+        poolProperties.setRemoveAbandoned(true);
+        poolProperties.setRemoveAbandonedTimeout(30);
+        poolProperties.setLogAbandoned(true);
+        poolProperties.setUrl(url);
+        poolProperties.setUsername(username);
+        poolProperties.setPassword(password);
+        poolProperties.setDriverClassName(driverClassName);
+        return new DataSource(poolProperties);
     }
 
-    public static Connection getConnection() throws NullPointerException, ExceptionDao {
-        init();
+    protected static Connection getConnection() throws NullPointerException, ExceptionDao {
         try {
-
-            Class.forName(driverClassName);
-            return DriverManager.getConnection(url, username, password);
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new ExceptionDao("",e);
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
         }
     }
 
@@ -59,24 +71,21 @@ public class MySqlConnection {
         }
     }
 
-    private static void init() throws ExceptionDao {
-        readConfig();
-        driverClassName = props.getProperty("driverClassName");
-        username = props.getProperty("username");
-        password = props.getProperty("password");
-        url = String.format("%s:%s://%s:%d/%s", props.getProperty("protocol"),
-                                                props.getProperty("subprotocol"),
-                                                props.getProperty("host"),
-                                                Integer.valueOf(props.getProperty("port")),
-                                                props.getProperty("dbName"));
-    }
+
     private static void readConfig() throws ExceptionDao {
-        props = new Properties();
+        Properties props = new Properties();
         String propertyFile = "e:\\Java\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
         //String propertyFile = "d:\\11.Course\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
-
         try {
             props.load(new FileInputStream(new File(propertyFile)));
+            driverClassName = props.getProperty("driverClassName");
+            username = props.getProperty("username");
+            password = props.getProperty("password");
+            url = String.format("%s:%s://%s:%d/%s", props.getProperty("protocol"),
+                                                    props.getProperty("subprotocol"),
+                                                    props.getProperty("host"),
+                                                    Integer.valueOf(props.getProperty("port")),
+                                                    props.getProperty("dbName"));
         } catch (IOException e) {
             throw new ExceptionDao("", e);
         }

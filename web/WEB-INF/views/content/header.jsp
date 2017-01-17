@@ -25,7 +25,7 @@
                 </ul>
             </li>
             <li>
-                <img id="exit" src="${pageContext.request.contextPath}/resources/images/exit.png">
+                <a href="${pageContext.request.contextPath}/logout"><img id="exit" src="${pageContext.request.contextPath}/resources/images/exit.png"></a>
             </li>
         </ul>
     </div>

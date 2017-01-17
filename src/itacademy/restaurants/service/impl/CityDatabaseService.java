@@ -39,7 +39,7 @@ public class CityDatabaseService implements CityService {
 
     @Override
     public City getById(long id) {
-        return this.cityDatabaseDao.getById();
+        return this.cityDatabaseDao.getById(id);
     }
 
     @Override

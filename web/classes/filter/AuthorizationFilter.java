@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by aVa on 14.01.2017.
  */
-@WebFilter(urlPatterns = "/*")
+@WebFilter(servletNames = {"restaurants"})
 public class AuthorizationFilter implements Filter {
 
 
@@ -41,10 +41,6 @@ public class AuthorizationFilter implements Filter {
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }
-        }
-        if (uri.equals("/login") || uri.equals("/registration")) {
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
         }
         ((HttpServletResponse) servletResponse).sendRedirect("/login");
     }

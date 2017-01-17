@@ -1,6 +1,7 @@
 package itacademy.restaurants.dao.impl;
 
 import itacademy.restaurants.dao.RestaurantDao;
+import itacademy.restaurants.dao.connection.MySqlConnection;
 import itacademy.restaurants.model.*;
 
 import java.util.List;
@@ -9,11 +10,12 @@ import java.util.Set;
 /**
  * Created by aVa on 13.01.2017.
  */
-public class RestaurantDatabaseDao implements RestaurantDao {
+public class RestaurantDatabaseDao extends MySqlConnection implements RestaurantDao {
 
     @Override
-    public void add(Restaurant restaurant) {
-
+    public long add(Restaurant restaurant) {
+        long id = 0;
+        return id;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     }
 
     @Override
-    public Restaurant getById() {
+    public Restaurant getById(long id) {
         return null;
     }
 

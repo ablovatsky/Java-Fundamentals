@@ -12,10 +12,16 @@ import java.io.IOException;
  * Created by VAblovatsky on 17.01.2017.
  */
 
-@WebServlet(urlPatterns = "/content/restaurants")
+@WebServlet(urlPatterns = "/restaurants", name = "restaurants")
 public class RestaurantsServlet extends HttpServlet {
 
     private static final String RESTAURANTS_URL = "/WEB-INF/views/content/restaurants.jsp";
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
+        dispatcher.forward(req, resp);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

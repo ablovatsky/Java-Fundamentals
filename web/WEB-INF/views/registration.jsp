@@ -30,8 +30,8 @@
                 <input type="password" name="password" class="form-control" placeholder="Пароль"/>
                 <input type="password" name="confirmPassword" class="form-control" placeholder="Подтверждение пароля"/>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегестрироваться</button>
-                <h4 class="text-center"><a href="${pageContext.request.contextPath}/views/login.jsp">Авторизация</a></h4>
             </form>
+            <h4 class="text-center"><a href="${pageContext.request.contextPath}/login">Авторизация</a></h4>
         </div>
 	</body>
 </html>

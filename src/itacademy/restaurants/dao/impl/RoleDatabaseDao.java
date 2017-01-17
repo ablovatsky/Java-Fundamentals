@@ -14,11 +14,11 @@ import java.util.Set;
 /**
  * Created by aVa on 14.01.2017.
  */
-public class RoleDatabaseDao implements RoleDao {
+public class RoleDatabaseDao extends MySqlConnection implements RoleDao {
 
     @Override
     public Long getIdRoleByName(String name) throws ExceptionDao {
-        try(Connection connection = MySqlConnection.getConnection()) {
+        try(Connection connection = getConnection()) {
             String strSql = "SELECT `id` FROM `roles` WHERE `role` LIKE ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setString(1, name);
@@ -34,8 +34,9 @@ public class RoleDatabaseDao implements RoleDao {
     }
 
     @Override
-    public void add(Role model) {
-
+    public long add(Role model) {
+        long id = 0;
+        return id;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class RoleDatabaseDao implements RoleDao {
     }
 
     @Override
-    public Role getById() {
+    public Role getById(long id) {
         return null;
     }
 

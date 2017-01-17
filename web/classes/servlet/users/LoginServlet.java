@@ -17,11 +17,11 @@ import java.sql.SQLException;
 /**
  * Created by aVa on 14.01.2017.
  */
-@WebServlet(urlPatterns = "/login")
+@WebServlet(urlPatterns = "/login", name = "login")
 public class LoginServlet extends HttpServlet {
 
     private static final String LOGIN_URL = "/WEB-INF/views/login.jsp";
-    private static final String RESTAURANTS_URL = "/content/restaurants";
+    private static final String RESTAURANTS_URL = "/restaurants";
 
     private UserDatabaseService userDatabaseService;
 

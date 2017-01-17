@@ -34,6 +34,7 @@ public class UserDatabaseService implements UserService {
 
     @Override
     public Set<Role> getUserRoles(User user) throws ExceptionDao {
+
         return this.userDatabaseDao.getUserRoles(user);
     }
 

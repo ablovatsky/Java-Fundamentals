@@ -1,5 +1,6 @@
 package itacademy.restaurants.dao.impl;
 
+import itacademy.restaurants.dao.connection.MySqlConnection;
 import itacademy.restaurants.model.Cuisine;
 import itacademy.restaurants.dao.CuisineDao;
 import itacademy.restaurants.model.Model;
@@ -8,7 +9,7 @@ import java.util.Set;
 /**
  * Created by aVa on 13.01.2017.
  */
-public class CuisineDatabaseDao implements CuisineDao {
+public class CuisineDatabaseDao extends MySqlConnection implements CuisineDao {
 
     @Override
     public Cuisine getCuisineByName(String name) {
@@ -16,8 +17,9 @@ public class CuisineDatabaseDao implements CuisineDao {
     }
 
     @Override
-    public void add(Cuisine cuisine) {
-
+    public long add(Cuisine cuisine) {
+        long id = 0;
+        return id;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class CuisineDatabaseDao implements CuisineDao {
     }
 
     @Override
-    public Cuisine getById() {
+    public Cuisine getById(long id) {
         return null;
     }
 

@@ -23,20 +23,15 @@
     </head>
 
     <body>
-
         <div class="container">
-
             <form method="POST" action="${pageContext.request.contextPath}/login" class="form-signin">
                 <h2 class="form-heading">Авторизация</h2>
                 <input name="username" type="text" class="form-control" placeholder="Имя пользователя" autofocus="true"/>
                 <input name="password" type="password" class="form-control" placeholder="Пароль"/>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Авторизоваться</button>
             </form>
-            <form method="GET" action="${pageContext.request.contextPath}/registration" class="form-signin">
-                <h4 class="text-center"><a href="${pageContext.request.contextPath}/registration">Регестрация</a></h4>
-            </form>
-
-        </div>
+            <h4 class="text-center"><a href="${pageContext.request.contextPath}/registration">Регестрация</a></h4>
+         </div>
     <!-- /container -->
     </body>
 </html>

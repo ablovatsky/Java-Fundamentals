@@ -42,15 +42,20 @@
     display:block;
 }
 
+#menu li ul li a{
+    background:#404040 !important;
+}
+
 #menu li a{
     display:block;
     padding:5px;
     color:#fff;
-    background:#404040;
+    background: none;
     -moz-border-radius:2px;
     -webkit-border-radius:2px;
     border-radius:2px;
 }
+
 #menu li img {
     cursor: pointer;
 }
