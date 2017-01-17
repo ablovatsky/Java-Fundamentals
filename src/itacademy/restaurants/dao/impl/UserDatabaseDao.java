@@ -17,8 +17,20 @@ import java.util.Set;
 public class UserDatabaseDao implements UserDao {
 
     @Override
-    public User getUserByName(String username) {
-        return null;
+    public long getUserIdByName(String username) throws ExceptionDao {
+        try(Connection connection = MySqlConnection.getConnection()) {
+            String sqlQuery = "SELECT `id` FROM `users`  WHERE `username` = ?";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setString(1, username);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    return resultSet.getLong("id");
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
+        return 0;
     }
 
     @Override
@@ -28,10 +40,9 @@ public class UserDatabaseDao implements UserDao {
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, username);
                 statement.setString(2, password);
-                try(ResultSet result = statement.executeQuery()) {
-                    if (result.next()) {
-                        User user = new User(result.getLong("id"), result.getString("username"), result.getString("password"));
-                        connection.close();
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        User user = new User(resultSet.getLong("id"), resultSet.getString("username"), resultSet.getString("password"));
                         user.setRoles(getUserRoles(user));
                         return user;
                     }

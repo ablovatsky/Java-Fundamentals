@@ -1,4 +1,4 @@
-package servlet;
+package servlet.users;
 
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.model.User;
@@ -27,9 +27,19 @@ public class RegistrationServlet extends HttpServlet {
         userDatabaseService = new UserDatabaseService();
     }
 
+    private static final String REGISTRATION_URL = "/WEB-INF/views/registration.jsp";
+    private static final String RESTAURANTS_URL = "/content/restaurants";
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(REGISTRATION_URL);
+        dispatcher.forward(req, resp);
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+        RequestDispatcher dispatcher;
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String confirmPassword = req.getParameter("confirmPassword");
@@ -38,11 +48,14 @@ public class RegistrationServlet extends HttpServlet {
             try {
                 userDatabaseService.add(user);
                 session.setAttribute("USER", user);
-                resp.sendRedirect("/views/content/restaurants.jsp");
+                dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
+                dispatcher.forward(req,resp);
 
             } catch (ExceptionService | ExceptionDao | SQLException exceptionService) {
                 exceptionService.printStackTrace();
             }
         }
+        dispatcher = getServletContext().getRequestDispatcher(REGISTRATION_URL);
+        dispatcher.forward(req,resp);
     }
 }

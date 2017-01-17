@@ -1,4 +1,4 @@
-package servlet;
+package servlet.users;
 
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.model.User;
@@ -20,6 +20,9 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 
+    private static final String LOGIN_URL = "/WEB-INF/views/login.jsp";
+    private static final String RESTAURANTS_URL = "/content/restaurants";
+
     private UserDatabaseService userDatabaseService;
 
     public LoginServlet() {
@@ -27,10 +30,17 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(LOGIN_URL);
+        dispatcher.forward(req,resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        RequestDispatcher dispatcher;
         User user = null;
         try {
             user = userDatabaseService.getUserByNameAndPassword(username, password);
@@ -39,9 +49,12 @@ public class LoginServlet extends HttpServlet {
         }
         if (user != null) {
             session.setAttribute("USER", user);
-            resp.sendRedirect("/views/content/restaurants.jsp");
+            req.setAttribute("user", user);
+            dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
+            dispatcher.forward(req,resp);
             return;
         }
-        resp.sendRedirect("/views/login.jsp?error=error");
+        dispatcher = getServletContext().getRequestDispatcher(LOGIN_URL);
+        dispatcher.forward(req,resp);
     }
 }
