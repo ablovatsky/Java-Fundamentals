@@ -72,8 +72,8 @@ public class MySqlConnection {
     }
     private static void readConfig() throws ExceptionDao {
         props = new Properties();
-        //String propertyFile = "e:\\Java\\restaurants\\src\\itacademy\\resources\\database.properties";
-        String propertyFile = "d:\\11.Course\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
+        String propertyFile = "e:\\Java\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
+        //String propertyFile = "d:\\11.Course\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
 
         try {
             props.load(new FileInputStream(new File(propertyFile)));
