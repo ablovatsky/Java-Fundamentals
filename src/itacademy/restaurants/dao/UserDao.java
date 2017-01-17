@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public interface UserDao extends ModelDao<User> {
 
-    User getUserByName(String username);
+    long getUserIdByName (String username) throws ExceptionDao;
 
     User getUserByNameAndPassword(String username, String password) throws ExceptionDao, SQLException;
 

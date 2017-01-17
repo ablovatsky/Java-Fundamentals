@@ -19,17 +19,19 @@
 
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" media="all">
     <link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet" media="all">
+    <link href="${pageContext.request.contextPath}/resources/css/header.css" rel="stylesheet" media="all">
 
 </head>
 
 <body>
+<jsp:include page="header.jsp"/>
 
 <div class="container">
     <h2 class="form-heading">Скоро тут будут отображаться лучшие рестораны мира. Оставайтесь с нами.</h2>
     <form method="GET" action="${pageContext.request.contextPath}/logout" class="form-signin">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Выход</button>
     </form>
-    <h4 class="text-center"><a href="${pageContext.request.contextPath}/views/content/administration/add-restaurant.jsp">Добавить ресторан</a></h4>
+    <h4 class="text-center"><a href="${pageContext.request.contextPath}/WEB-INF/views/content/administration/add-restaurant.jsp">Добавить ресторан</a></h4>
 
 </div>
 <!-- /container -->

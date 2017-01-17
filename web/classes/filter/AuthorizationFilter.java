@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by aVa on 14.01.2017.
  */
-@WebFilter(urlPatterns = "/views/content/*")
+@WebFilter(urlPatterns = "/*")
 public class AuthorizationFilter implements Filter {
 
 
@@ -30,10 +30,10 @@ public class AuthorizationFilter implements Filter {
         User user = (User) session.getAttribute("USER");
         Set<AuthenticationRoles> roles = new HashSet<>();
         if (user != null) {
-            if (uri.contains("views/content/administration/")) {
+            if (uri.contains("/administration")) {
                 roles.add(AuthenticationRoles.USER);
                 roles.add(AuthenticationRoles.ADMIN);
-            } else if (uri.contains("views/content/")) {
+            } else if (uri.contains("/content")) {
                 roles.add(AuthenticationRoles.USER);
 
             }
@@ -42,7 +42,11 @@ public class AuthorizationFilter implements Filter {
                 return;
             }
         }
-        ((HttpServletResponse) servletResponse).sendRedirect("/views/login.jsp");
+        if (uri.equals("/login") || uri.equals("/registration")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+        ((HttpServletResponse) servletResponse).sendRedirect("/login");
     }
 
     @Override
