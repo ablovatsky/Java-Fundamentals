@@ -14,7 +14,7 @@ public interface UserDao extends ModelDao<User> {
 
     long getUserIdByName (String username) throws ExceptionDao;
 
-    User getUserByNameAndPassword(String username, String password) throws ExceptionDao, SQLException;
+    User getUserByNameAndPassword(String username, String password) throws ExceptionDao;
 
     Set<Role> getUserRoles(User user) throws ExceptionDao;
 }

@@ -19,14 +19,15 @@ public class CommentDatabaseDao extends MySqlConnection implements CommentDao {
     }
 
     @Override
-    public void update(Comment comment) {
-
+    public boolean update(Comment model) {
+        return false;
     }
 
     @Override
-    public void remove(Comment comment) {
-
+    public boolean remove(Comment model) {
+        return false;
     }
+
 
     @Override
     public Comment getById(long id) {

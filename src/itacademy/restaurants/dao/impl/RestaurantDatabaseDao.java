@@ -1,5 +1,6 @@
 package itacademy.restaurants.dao.impl;
 
+import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.dao.RestaurantDao;
 import itacademy.restaurants.dao.connection.MySqlConnection;
 import itacademy.restaurants.model.*;
@@ -13,43 +14,44 @@ import java.util.Set;
 public class RestaurantDatabaseDao extends MySqlConnection implements RestaurantDao {
 
     @Override
-    public long add(Restaurant restaurant) {
+    public long add(Restaurant restaurant) throws ExceptionDao {
         long id = 0;
         return id;
     }
 
     @Override
-    public void update(Restaurant restaurant) {
-
+    public boolean update(Restaurant model) throws ExceptionDao {
+        return false;
     }
 
     @Override
-    public void remove(Restaurant restaurant) {
-
+    public boolean remove(Restaurant model) throws ExceptionDao {
+        return false;
     }
 
+
     @Override
-    public Restaurant getById(long id) {
+    public Restaurant getById(long id) throws ExceptionDao {
         return null;
     }
 
     @Override
-    public Set<Restaurant> getAll() {
+    public Set<Restaurant> getAll() throws ExceptionDao {
         return null;
     }
 
     @Override
-    public Restaurant getRestaurantByName(String name) {
+    public Restaurant getRestaurantByName(String name) throws ExceptionDao {
         return null;
     }
 
     @Override
-    public Set<Cuisine> getRestaurantCuisines(Restaurant restaurant) {
+    public Set<Cuisine> getRestaurantCuisines(Restaurant restaurant) throws ExceptionDao {
         return null;
     }
 
     @Override
-    public void addCuisineToRestaurant(Restaurant restaurant, Cuisine cuisine) {
+    public void addCuisineToRestaurant(Restaurant restaurant, Cuisine cuisine) throws ExceptionDao {
 
     }
 

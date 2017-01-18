@@ -16,6 +16,9 @@ import java.util.Properties;
  */
 public abstract class MySqlConnection {
 
+    private static String propertyFilePath = "d:\\11.Course\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
+    //private static String propertyFilePath = "e:\\Java\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
+
     private static final DataSource dataSource = init();
     private static String driverClassName;
     private static String username;
@@ -74,10 +77,8 @@ public abstract class MySqlConnection {
 
     private static void readConfig() throws ExceptionDao {
         Properties props = new Properties();
-        String propertyFile = "e:\\Java\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
-        //String propertyFile = "d:\\11.Course\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
         try {
-            props.load(new FileInputStream(new File(propertyFile)));
+            props.load(new FileInputStream(new File(propertyFilePath)));
             driverClassName = props.getProperty("driverClassName");
             username = props.getProperty("username");
             password = props.getProperty("password");

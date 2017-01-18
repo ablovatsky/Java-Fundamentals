@@ -28,7 +28,7 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     private static final String REGISTRATION_URL = "/WEB-INF/views/registration.jsp";
-    private static final String RESTAURANTS_URL = "/content/restaurants";
+    private static final String RESTAURANTS_URL = "/restaurants";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,13 +43,13 @@ public class RegistrationServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String confirmPassword = req.getParameter("confirmPassword");
-        if (password.equals(confirmPassword)) {
+        if (Validator.isValid(username, password, confirmPassword)) {
             User user = new User(username, password, confirmPassword);
             try {
                 userDatabaseService.add(user);
                 session.setAttribute("USER", user);
-                dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
-                dispatcher.forward(req,resp);
+                resp.sendRedirect(RESTAURANTS_URL);
+                return;
 
             } catch (ExceptionService | ExceptionDao | SQLException exceptionService) {
                 exceptionService.printStackTrace();

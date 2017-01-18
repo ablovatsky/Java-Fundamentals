@@ -12,13 +12,13 @@ import java.util.Set;
  */
 public interface ModelDao<T extends Model> {
 
-    public long add(T model) throws ExceptionDao, SQLException;
+    public long add(T model) throws ExceptionDao;
 
-    public void update(T model);
+    public boolean update(T model) throws ExceptionDao;
 
-    public void remove(T model);
+    public boolean remove(T model) throws ExceptionDao;
 
-    public T getById(long id);
+    public T getById(long id) throws ExceptionDao;
 
-    public Set<T> getAll();
+    public Set<T> getAll() throws ExceptionDao;
 }

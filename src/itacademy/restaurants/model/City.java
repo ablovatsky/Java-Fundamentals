@@ -9,6 +9,10 @@ public class City extends Model{
 
     private Country country;
 
+    public City(String name) {
+        this.name = name;
+    }
+
     public City(String name, Country country) {
         this.name = name;
         this.country = country;

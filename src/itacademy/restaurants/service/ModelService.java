@@ -15,9 +15,9 @@ public interface ModelService<T extends Model> {
 
     void add(T model) throws ExceptionService, ExceptionDao, SQLException;
 
-    void update(T model);
+    boolean update(T model);
 
-    void remove(T model);
+    boolean remove(T model);
 
     T getById(long id);
 

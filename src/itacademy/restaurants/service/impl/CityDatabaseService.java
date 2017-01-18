@@ -28,13 +28,13 @@ public class CityDatabaseService implements CityService {
     }
 
     @Override
-    public void update(City city) {
-        this.cityDatabaseDao.update(city);
+    public boolean update(City city) {
+        return this.cityDatabaseDao.update(city);
     }
 
     @Override
-    public void remove(City city) {
-        this.cityDatabaseDao.remove(city);
+    public boolean remove(City city) {
+        return this.cityDatabaseDao.remove(city);
     }
 
     @Override

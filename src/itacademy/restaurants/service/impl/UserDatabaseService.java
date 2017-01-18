@@ -44,14 +44,15 @@ public class UserDatabaseService implements UserService {
     }
 
     @Override
-    public void update(User user) {
-
+    public boolean update(User user) {
+        return this.userDatabaseDao.update(user);
     }
 
     @Override
-    public void remove(User user) {
-
+    public boolean remove(User user) {
+        return this.userDatabaseDao.remove(user);
     }
+
 
     @Override
     public User getById(long id) {

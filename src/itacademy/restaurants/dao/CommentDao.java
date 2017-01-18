@@ -9,8 +9,8 @@ import java.util.List;
  */
 public interface CommentDao extends ModelDao<Comment> {
 
-    List<Comment> getListCommentsByUserId(long id);
+    List<Comment> getListCommentsByUserId(long id) throws ExceptionDao;
 
-    List<Comment> getListCommentsByRestaurantId(long id);
+    List<Comment> getListCommentsByRestaurantId(long id) throws ExceptionDao;
 
 }

@@ -31,7 +31,7 @@
     <form method="GET" action="${pageContext.request.contextPath}/logout" class="form-signin">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Выход</button>
     </form>
-    <h4 class="text-center"><a href="${pageContext.request.contextPath}/WEB-INF/views/content/administration/add-restaurant.jsp">Добавить ресторан</a></h4>
+    <h4 class="text-center"><a href="${pageContext.request.contextPath}/restaurants">Добавить ресторан</a></h4>
 
 </div>
 <!-- /container -->

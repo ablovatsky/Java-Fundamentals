@@ -23,19 +23,19 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
-      INSERT INTO `users`(username, password) VALUES ('admin','admin');
+      INSERT INTO `users`(username, password) VALUES ('admin','21232f297a57a5a743894a0e4a801fc3');
       UNLOCK TABLES;
 
 -- Table `roles`
 CREATE TABLE `roles` (
   `id`    BIGINT(20)  NOT NULL AUTO_INCREMENT,
-  `role`  VARCHAR(45) NOT NULL UNIQUE,
+  `name`  VARCHAR(45) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
-    INSERT INTO `roles`(role) VALUES ('user');
+    INSERT INTO `roles`(name) VALUES ('user');
     UNLOCK TABLES;
-    INSERT INTO `roles`(role) VALUES ('admin');
+    INSERT INTO `roles`(name) VALUES ('admin');
     UNLOCK TABLES;
 
 -- Table `users_roles`

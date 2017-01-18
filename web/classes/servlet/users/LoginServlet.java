@@ -50,8 +50,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             session.setAttribute("USER", user);
             req.setAttribute("user", user);
-            dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
-            dispatcher.forward(req,resp);
+            resp.sendRedirect(RESTAURANTS_URL);
             return;
         }
         dispatcher = getServletContext().getRequestDispatcher(LOGIN_URL);

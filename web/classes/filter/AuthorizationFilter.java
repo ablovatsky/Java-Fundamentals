@@ -30,13 +30,7 @@ public class AuthorizationFilter implements Filter {
         User user = (User) session.getAttribute("USER");
         Set<AuthenticationRoles> roles = new HashSet<>();
         if (user != null) {
-            if (uri.contains("/administration")) {
-                roles.add(AuthenticationRoles.USER);
-                roles.add(AuthenticationRoles.ADMIN);
-            } else if (uri.contains("/content")) {
-                roles.add(AuthenticationRoles.USER);
-
-            }
+            roles.add(AuthenticationRoles.USER);
             if (new Authentication<>().isAccess(user, roles)) {
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
