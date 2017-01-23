@@ -45,12 +45,51 @@ public class RestaurantDatabaseDao implements RestaurantDao {
 
     @Override
     public Restaurant getById(long id) throws ExceptionDao {
+        Restaurant restaurant = new Restaurant();
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "";
+            String sqlQuery = "SELECT * FROM `restaurants` WHERE `id` = ?";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, id);
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        restaurant.setId(resultSet.getLong("id"));
+                        restaurant.setName(resultSet.getString("name"));
+                        restaurant.setPhone(resultSet.getString("phone"));
+                        restaurant.setWorkingHours(resultSet.getString("working_hours"));
+                        restaurant.setWebsite(resultSet.getString("website"));
+                        restaurant.setInformation(resultSet.getString("information"));
+                        restaurant.setImage(resultSet.getBytes("image"));
+                    }
+                }
+            }
+            sqlQuery = "SELECT t1.id, t1.name FROM cuisines t1 INNER JOIN restaurant_cuisine t2 ON t1.id = t2.cuisine_id WHERE t2.restaurant_id = ?";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, id);
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    Set<Cuisine> cuisines = new LinkedHashSet<>();
+                    while (resultSet.next()) {
+                       cuisines.add(new Cuisine(resultSet.getLong("id"), resultSet.getString("name")));
+                    }
+                    restaurant.setCuisines(cuisines);
+                }
+            }
+            sqlQuery = "SELECT t1.id AS country_id, t1.name AS country_name, t2.id AS city_id, t2.name AS city_name FROM countries t1 INNER JOIN " +
+                        "(SELECT t1.id, t1.name, t1.country_id FROM cities t1 INNER JOIN address t2 ON t1.id = t2.city_id WHERE t2.restaurant_id = ?) t2 " +
+                        "ON t1.id = t2.country_id";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, id);
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    Set<City> cities = new LinkedHashSet<>();
+                    while (resultSet.next()) {
+                        cities.add(new City(resultSet.getLong("city_id"), resultSet.getString("city_name"), new Country(resultSet.getLong("country_id"), resultSet.getString("country_name"))));
+                    }
+                    restaurant.setAddresses(cities);
+                }
+            }
+            return restaurant;
         } catch (SQLException e) {
             throw new ExceptionDao("", e);
         }
-        return null;
     }
 
     @Override
