@@ -23,7 +23,7 @@
 	</head>
 
 	<body>
-        <div class="container">
+        <div class="">
             <form method="POST" action="${pageContext.request.contextPath}/registration" class="form-signin">
                 <h2 class="form-signin-heading">Регистрация</h2>
                 <input type="text" name="username" class="form-control" placeholder="Имя пользователя" autofocus="true"/>

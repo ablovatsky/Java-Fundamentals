@@ -1,8 +1,6 @@
 package itacademy.restaurants.model;
 
-/**
- * Created by aVa on 14.01.2017.
- */
+
 public class Role extends Model {
 
     private String name;

@@ -2,9 +2,7 @@ package itacademy.restaurants.model;
 
 import java.time.LocalDate;
 
-/**
- * Created by aVa on 06.01.2017.
- */
+
 public class Comment extends Model {
 
     private String comment;

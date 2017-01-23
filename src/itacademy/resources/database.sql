@@ -60,11 +60,18 @@ UNLOCK TABLES;
 
 -- Table: restaurants
 CREATE TABLE `restaurants` (
-  `id`          BIGINT(20)    NOT NULL AUTO_INCREMENT,
-  `name`        VARCHAR(255)  NOT NULL,
-  `information` TEXT,
+  `id`                BIGINT(20)    NOT NULL AUTO_INCREMENT,
+  `name`              VARCHAR(255)  NOT NULL,
+  `phone`             VARCHAR(30),
+  `website`           VARCHAR(30),
+  `working_hours`     VARCHAR(11),
+  `short_information` TEXT,
+  `information`       TEXT,
+  `image`            LONGBLOB,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+
+
 
 -- Table: cuisines
 CREATE TABLE `cuisines` (

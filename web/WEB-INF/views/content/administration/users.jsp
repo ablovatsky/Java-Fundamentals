@@ -7,6 +7,9 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,16 +22,31 @@
 
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" media="all">
     <link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet" media="all">
+    <link href="${pageContext.request.contextPath}/resources/css/header.css" rel="stylesheet" media="all">
 
 </head>
 
 <body>
+<jsp:include page="../header.jsp"/>
 
 <div class="">
-    <h2 class="form-heading">Скоро вы сможете добавлять рестораны. Оставайтесь с нами.</h2>
-    <form method="GET" action="${pageContext.request.contextPath}/logout" class="form-signin">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Выход</button>
-    </form>
+    <c:set var="users" value="${requestScope.listUsers}"/>
+    <c:if test="${!empty users}">
+        <table>
+            <tr>
+            <th width="100">ID</th>
+            <th width="200">Имя</th>
+            <th width="200">Роли</th>
+            </tr>
+            <c:forEach items="${users}" var="user">
+                <tr >
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td><a href="${pageContext.request.contextPath}/user?userId${user.id}=">Получить роль</a></td>
+                </tr>
+            </c:forEach>
+    </table>
+</c:if>
 
 
 </div>

@@ -1,8 +1,6 @@
 package itacademy.restaurants.model;
 
-/**
- * Created by aVa on 05.01.2017.
- */
+
 public class Cuisine extends Model {
 
     private String name;

@@ -2,22 +2,24 @@ package itacademy.restaurants.dao.impl;
 
 import itacademy.restaurants.dao.CountryDao;
 import itacademy.restaurants.dao.ExceptionDao;
-import itacademy.restaurants.dao.connection.MySqlConnection;
+import itacademy.restaurants.dao.connection.MySQL;
 import itacademy.restaurants.model.Country;
-import itacademy.restaurants.model.Model;
-
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by aVa on 13.01.2017.
- */
-public class CountryDatabaseDao extends MySqlConnection implements CountryDao {
+
+public class CountryDatabaseDao implements CountryDao {
+
+    private MySQL connections;
+
+    public CountryDatabaseDao() {
+        connections = MySQL.CONNECTIONS;
+    }
 
     @Override
     public Country getCountryByName(String name) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT * FROM `countries` WHERE `name` LIKE ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setString(1, name);
@@ -35,7 +37,7 @@ public class CountryDatabaseDao extends MySqlConnection implements CountryDao {
 
     @Override
     public long add(Country country) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "INSERT INTO `countries` (`name`) VALUES (?)";
             try(PreparedStatement statement = connection.prepareStatement(strSql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, country.getName());
@@ -58,7 +60,7 @@ public class CountryDatabaseDao extends MySqlConnection implements CountryDao {
 
     @Override
     public boolean remove(Country country) throws ExceptionDao {
-        try(Connection connection = getConnection()){
+        try(Connection connection = connections.getConnection()){
             String strSql = "DELETE FROM `countries` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, country.getId());
@@ -69,10 +71,9 @@ public class CountryDatabaseDao extends MySqlConnection implements CountryDao {
         }
     }
 
-
     @Override
     public Country getById(long id) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT * FROM `countries` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, id);
@@ -91,7 +92,7 @@ public class CountryDatabaseDao extends MySqlConnection implements CountryDao {
     @Override
     public Set<Country> getAll() throws ExceptionDao {
         Set<Country> countries = new HashSet<>();
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = ("SELECT * FROM `countries`");
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 try(ResultSet resultSet = statement.executeQuery()) {

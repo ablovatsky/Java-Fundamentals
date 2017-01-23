@@ -6,28 +6,34 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div id="header">
-    <div id="user_menu">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<div class="header">
+    <div class="user_menu">
         <ul id="menu">
             <li>
-                <img id="user" src="${pageContext.request.contextPath}/resources/images/user.ico">
-                <ul>
-                    <li>Administrator</li>
-                    <li><a href="${pageContext.request.contextPath}">Отзывы</a></li>
-                </ul>
+               Рестораны
             </li>
             <li>
-                <img id="setting" src="${pageContext.request.contextPath}/resources/images/settings.jpg">
-                <ul>
-                    <li><a href="${pageContext.request.contextPath}">Рестораны</a></li>
-                    <li><a href="${pageContext.request.contextPath}">Адреса</a></li>
-                    <li><a href="${pageContext.request.contextPath}">Пользователи</a></li>
-                </ul>
+                Мои отзывы
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/logout"><img id="exit" src="${pageContext.request.contextPath}/resources/images/exit.png"></a>
+                Администрирование
+                <div class="d_ul">
+                </div>
+                    <ul>
+                        <li><a href="${pageContext.request.contextPath}">Рестораны</a></li>
+                        <li><a href="${pageContext.request.contextPath}">Адреса</a></li>
+                        <li><a href="${pageContext.request.contextPath}/administration/users">Пользователи</a></li>
+                    </ul>
+
             </li>
+
         </ul>
+    </div>
+    <div class="user">
+        <img id="user" src="${pageContext.request.contextPath}/resources/images/user.ico">
+        ${sessionScope.USER.username}
+        <a href="${pageContext.request.contextPath}/logout"><img id="exit" src="${pageContext.request.contextPath}/resources/images/exit.png"></a>
     </div>
 
 </div>

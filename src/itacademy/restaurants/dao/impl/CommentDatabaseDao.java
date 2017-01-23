@@ -1,16 +1,19 @@
 package itacademy.restaurants.dao.impl;
 
 import itacademy.restaurants.dao.CommentDao;
-import itacademy.restaurants.dao.connection.MySqlConnection;
+import itacademy.restaurants.dao.connection.MySQL;
 import itacademy.restaurants.model.Comment;
-import itacademy.restaurants.model.Model;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by aVa on 13.01.2017.
- */
-public class CommentDatabaseDao extends MySqlConnection implements CommentDao {
+
+public class CommentDatabaseDao implements CommentDao {
+
+    private MySQL connections;
+
+    public CommentDatabaseDao() {
+        connections = MySQL.CONNECTIONS;
+    }
 
     @Override
     public long add(Comment comment) {

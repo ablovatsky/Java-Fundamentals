@@ -7,6 +7,9 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,6 +22,7 @@
 
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" media="all">
     <link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet" media="all">
+    <link href="${pageContext.request.contextPath}/resources/css/restaurants.css" rel="stylesheet" media="all">
     <link href="${pageContext.request.contextPath}/resources/css/header.css" rel="stylesheet" media="all">
 
 </head>
@@ -26,12 +30,35 @@
 <body>
 <jsp:include page="header.jsp"/>
 
-<div class="container">
-    <h2 class="form-heading">Скоро тут будут отображаться лучшие рестораны мира. Оставайтесь с нами.</h2>
-    <form method="GET" action="${pageContext.request.contextPath}/logout" class="form-signin">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Выход</button>
-    </form>
-    <h4 class="text-center"><a href="${pageContext.request.contextPath}/restaurants">Добавить ресторан</a></h4>
+<div class="content">
+    <div class="search">
+        <form action="/searchByName" method="POST">
+            <input name="text_search" type="text" class="input-search" placeholder="Поиск" autofocus="true"/>
+            <button class="btn btn-lg btn-primary btn-block button-search" type="submit">Поиск</button>
+            <select size="1" name="search_type">
+                <option value="name" selected>Название</option>
+                <option value="city">Город</option>
+                <option value="country">Страна</option>
+            </select>
+        </form>
+    </div>
+    <div class="restaurants">
+        <c:set var="restaurants" value="${sessionScope.restaurants}"/>
+        <c:if test="${!empty restaurants}">
+            <c:forEach items="${restaurants}" var="restaurant">
+                <div class="restaurant">
+                    <div id="rest_img">
+                        <a href="#"><img src="${pageContext.request.contextPath}/image?index=${restaurant.id}" alt="Img"/></a>
+                    </div>
+                    <div id="rest_inf">
+                        <a href="#">${restaurant.name}</a><br/><br/>
+                        ${restaurant.shortInformation}<br/><br/>
+                        <a href="http://${restaurant.website}">${restaurant.website}</a>
+                    </div>
+                </div>
+            </c:forEach>
+        </c:if>
+    </div>
 
 </div>
 <!-- /container -->

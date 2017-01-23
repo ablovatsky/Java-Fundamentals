@@ -1,23 +1,25 @@
 package itacademy.restaurants.dao.impl;
 
 import itacademy.restaurants.dao.ExceptionDao;
-import itacademy.restaurants.dao.connection.MySqlConnection;
+import itacademy.restaurants.dao.connection.MySQL;
 import itacademy.restaurants.model.Cuisine;
 import itacademy.restaurants.dao.CuisineDao;
-import itacademy.restaurants.model.Model;
-
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by aVa on 13.01.2017.
- */
-public class CuisineDatabaseDao extends MySqlConnection implements CuisineDao {
+
+public class CuisineDatabaseDao implements CuisineDao {
+
+    private MySQL connections;
+
+    public CuisineDatabaseDao() {
+        connections = MySQL.CONNECTIONS;
+    }
 
     @Override
     public Cuisine getCuisineByName(String name) {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT * FROM `cuisines` WHERE `name` LIKE ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setString(1, name);
@@ -35,7 +37,7 @@ public class CuisineDatabaseDao extends MySqlConnection implements CuisineDao {
 
     @Override
     public long add(Cuisine cuisine) {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "INSERT INTO `cuisines` (`name`) VALUES (?)";
             try(PreparedStatement statement = connection.prepareStatement(strSql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, cuisine.getName());
@@ -58,7 +60,7 @@ public class CuisineDatabaseDao extends MySqlConnection implements CuisineDao {
 
     @Override
     public boolean remove(Cuisine cuisine) {
-        try(Connection connection = getConnection()){
+        try(Connection connection = connections.getConnection()){
             String strSql = "DELETE FROM `cuisines` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, cuisine.getId());
@@ -69,10 +71,9 @@ public class CuisineDatabaseDao extends MySqlConnection implements CuisineDao {
         }
     }
 
-
     @Override
     public Cuisine getById(long id) {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT * FROM `cuisines` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, id);
@@ -91,7 +92,7 @@ public class CuisineDatabaseDao extends MySqlConnection implements CuisineDao {
     @Override
     public Set<Cuisine> getAll() {
         Set<Cuisine> cuisines = new HashSet<>();
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = ("SELECT * FROM `cuisines`");
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 try(ResultSet resultSet = statement.executeQuery()) {

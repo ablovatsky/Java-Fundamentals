@@ -2,6 +2,9 @@ body {
     padding-top: 10px;
     padding-bottom: 40px;
     background-color: #eee;
+    min-width: 970px;
+    max-width: 970px;
+    margin: 0px auto;
 }
 
 .form-signin {

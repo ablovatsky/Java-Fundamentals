@@ -1,8 +1,8 @@
 package itacademy.restaurants.service.impl;
 
 import itacademy.restaurants.dao.ExceptionDao;
+import itacademy.restaurants.dao.UserDao;
 import itacademy.restaurants.dao.impl.UserDatabaseDao;
-import itacademy.restaurants.model.Model;
 import itacademy.restaurants.model.Role;
 import itacademy.restaurants.model.User;
 import itacademy.restaurants.service.ExceptionService;
@@ -16,10 +16,23 @@ import java.util.Set;
  */
 public class UserDatabaseService implements UserService {
 
-    private UserDatabaseDao userDatabaseDao;
+    private UserDao userDao;
 
-    public UserDatabaseService() {
-        userDatabaseDao = new UserDatabaseDao();
+    private static volatile UserDatabaseService instance;
+
+    private UserDatabaseService() {
+        userDao = new UserDatabaseDao();
+    }
+
+    public static UserDatabaseService getInstance() {
+        if (instance == null) {
+            synchronized (UserDatabaseService.class) {
+                if (instance == null) {
+                    instance = new UserDatabaseService();
+                }
+            }
+        }
+        return instance;
     }
 
     @Override
@@ -29,28 +42,28 @@ public class UserDatabaseService implements UserService {
 
     @Override
     public User getUserByNameAndPassword(String username, String password) throws ExceptionDao, SQLException {
-        return this.userDatabaseDao.getUserByNameAndPassword(username, password);
+        return this.userDao.getUserByNameAndPassword(username, password);
     }
 
     @Override
     public Set<Role> getUserRoles(User user) throws ExceptionDao {
 
-        return this.userDatabaseDao.getUserRoles(user);
+        return this.userDao.getUserRoles(user);
     }
 
     @Override
     public void add(User user) throws ExceptionService, ExceptionDao, SQLException {
-        this.userDatabaseDao.add(user);
+        this.userDao.add(user);
     }
 
     @Override
     public boolean update(User user) {
-        return this.userDatabaseDao.update(user);
+        return this.userDao.update(user);
     }
 
     @Override
     public boolean remove(User user) {
-        return this.userDatabaseDao.remove(user);
+        return this.userDao.remove(user);
     }
 
 
@@ -61,6 +74,6 @@ public class UserDatabaseService implements UserService {
 
     @Override
     public Set<User> getAll() {
-        return null;
+        return this.userDao.getAll();
     }
 }

@@ -1,0 +1,80 @@
+.content {
+    margin-top: 80px;
+}
+.search {
+    width: 100%;
+    height: 60px;
+}
+.input-search {
+    padding-left: 10px;
+    float: left;
+    width: 720px;
+    height: 38px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.button-search {
+    margin: 0px 15px;
+    width: 110px;
+    height: 38px;
+    padding: 2px;
+    float: left;
+}
+
+.search select {
+    padding-left: 10px;
+    float: left;
+    width: 110px;
+    height: 38px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.search select option {
+    height: 38px;
+}
+
+.restaurants table{
+    width: 970px;
+}
+
+table #td_img {
+    width: 200px;
+    height: 200px;
+}
+
+.restaurants img {
+    width: 200px;
+    height: 200px;
+}
+
+#empty {
+    height: 20px;
+}
+
+.restaurant {
+    margin-bottom: 15px;
+    width: 100%;
+    height: 200px;
+}
+#rest_img {
+    float: left;
+    width: 200px;
+    height: 200px;
+}
+#rest_inf {
+    padding: 0px 10px;
+    float: left;
+    width: 770px;
+    height: 200px;
+}

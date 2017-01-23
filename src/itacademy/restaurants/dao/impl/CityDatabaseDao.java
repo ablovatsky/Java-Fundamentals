@@ -1,25 +1,26 @@
 package itacademy.restaurants.dao.impl;
 
 import itacademy.restaurants.dao.CityDao;
-import itacademy.restaurants.dao.connection.MySqlConnection;
+import itacademy.restaurants.dao.connection.MySQL;
 import itacademy.restaurants.model.Country;
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.model.City;
-
 import java.sql.*;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by aVa on 13.01.2017.
- */
-public class CityDatabaseDao extends MySqlConnection implements CityDao {
 
+public class CityDatabaseDao implements CityDao {
 
+    private MySQL connections;
+
+    public CityDatabaseDao() {
+        connections = MySQL.CONNECTIONS;
+    }
 
     @Override
     public long add(City city) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "INSERT INTO `cities` (`name`, `country_id`) VALUES (?, ?)";
             try(PreparedStatement statement = connection.prepareStatement(strSql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, city.getName());
@@ -43,7 +44,7 @@ public class CityDatabaseDao extends MySqlConnection implements CityDao {
 
     @Override
     public boolean remove(City city) throws ExceptionDao {
-        try(Connection connection = getConnection()){
+        try(Connection connection = connections.getConnection()){
             String strSql = "DELETE FROM `cities` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, city.getId());
@@ -54,10 +55,9 @@ public class CityDatabaseDao extends MySqlConnection implements CityDao {
         }
     }
 
-
     @Override
     public City getById(long id) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT * FROM `cities` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, id);

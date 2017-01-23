@@ -2,9 +2,7 @@ package itacademy.restaurants.model;
 
 import java.util.Set;
 
-/**
- * Created by aVa on 04.01.2017.
- */
+
 public class User extends Model {
 
     private String username;

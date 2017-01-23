@@ -2,7 +2,7 @@ package itacademy.restaurants.dao.impl;
 
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.dao.UserDao;
-import itacademy.restaurants.dao.connection.MySqlConnection;
+import itacademy.restaurants.dao.connection.MySQL;
 import itacademy.restaurants.model.Role;
 import itacademy.restaurants.model.User;
 import java.math.BigInteger;
@@ -12,10 +12,14 @@ import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by aVa on 13.01.2017.
- */
-public class UserDatabaseDao extends MySqlConnection implements UserDao {
+
+public class UserDatabaseDao implements UserDao {
+
+    private MySQL connections;
+
+    public UserDatabaseDao() {
+        connections = MySQL.CONNECTIONS;
+    }
 
     private static String md5Custom(String str) throws ExceptionDao{
         MessageDigest messageDigest;
@@ -38,7 +42,7 @@ public class UserDatabaseDao extends MySqlConnection implements UserDao {
 
     @Override
     public long getUserIdByName(String username) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String sqlQuery = "SELECT `id` FROM `users`  WHERE `username` = ?";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, username);
@@ -56,7 +60,7 @@ public class UserDatabaseDao extends MySqlConnection implements UserDao {
 
     @Override
     public User getUserByNameAndPassword(String username, String password) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String sqlQuery = "SELECT * FROM `users`  WHERE `username` = ? AND `password` = ?";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, username);
@@ -77,7 +81,7 @@ public class UserDatabaseDao extends MySqlConnection implements UserDao {
 
     @Override
     public Set<Role> getUserRoles(User user) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String sqlQuery = "SELECT roles.name FROM roles INNER JOIN users_roles WHERE roles.id = users_roles.role_id AND users_roles.user_id = ?";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, user.getId());
@@ -98,7 +102,7 @@ public class UserDatabaseDao extends MySqlConnection implements UserDao {
     public long add(User user) throws ExceptionDao{
         long userId = 0;
         long roleId = 0;
-        Connection connection = getConnection();
+        Connection connection = connections.getConnection();
         try{
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             connection.setAutoCommit(false);
@@ -128,17 +132,18 @@ public class UserDatabaseDao extends MySqlConnection implements UserDao {
                     statement.setLong(2, roleId);
                     statement.executeUpdate();
                 }
-                commitConnection(connection);
+                connections.commitConnection(connection);
+                user.setId(userId);
                 user.setRoles(getUserRoles(user));
             } else {
-                rollbackConnection(connection);
+                connections.rollbackConnection(connection);
                 userId = 0;
             }
         } catch (SQLException e) {
-            rollbackConnection(connection);
+            connections.rollbackConnection(connection);
             throw new ExceptionDao("",e);
         } finally {
-            closeConnection(connection);
+            connections.closeConnection(connection);
         }
         return userId;
     }
@@ -150,7 +155,7 @@ public class UserDatabaseDao extends MySqlConnection implements UserDao {
 
     @Override
     public boolean remove(User user) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "DELETE FROM `users` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, user.getId());
@@ -163,7 +168,7 @@ public class UserDatabaseDao extends MySqlConnection implements UserDao {
 
     @Override
     public User getById(long id) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT * FROM `users` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, id);
@@ -182,7 +187,7 @@ public class UserDatabaseDao extends MySqlConnection implements UserDao {
     @Override
     public Set<User> getAll() throws ExceptionDao {
         Set<User> users = new HashSet<>();
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT * FROM `users`";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 try(ResultSet resultSet = statement.executeQuery()) {

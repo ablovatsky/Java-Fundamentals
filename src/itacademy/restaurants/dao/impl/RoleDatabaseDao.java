@@ -2,21 +2,24 @@ package itacademy.restaurants.dao.impl;
 
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.dao.RoleDao;
-import itacademy.restaurants.dao.connection.MySqlConnection;
+import itacademy.restaurants.dao.connection.MySQL;
 import itacademy.restaurants.model.Role;
-
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by aVa on 14.01.2017.
- */
-public class RoleDatabaseDao extends MySqlConnection implements RoleDao {
+
+public class RoleDatabaseDao implements RoleDao {
+
+    private MySQL connections;
+
+    public RoleDatabaseDao() {
+        connections = MySQL.CONNECTIONS;
+    }
 
     @Override
     public Long getIdRoleByName(String name) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT `id` FROM `roles` WHERE `name` LIKE ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setString(1, name);
@@ -34,7 +37,7 @@ public class RoleDatabaseDao extends MySqlConnection implements RoleDao {
 
     @Override
     public long add(Role role) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "INSERT INTO `roles` (`name`) VALUES (?)";
             try(PreparedStatement statement = connection.prepareStatement(strSql,Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, role.getName());
@@ -57,7 +60,7 @@ public class RoleDatabaseDao extends MySqlConnection implements RoleDao {
 
     @Override
     public boolean remove(Role role) throws ExceptionDao {
-        try(Connection connection = getConnection()){
+        try(Connection connection = connections.getConnection()){
             String strSql = "DELETE FROM `roles` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, role.getId());
@@ -68,10 +71,9 @@ public class RoleDatabaseDao extends MySqlConnection implements RoleDao {
         }
     }
 
-
     @Override
     public Role getById(long id) throws ExceptionDao {
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = "SELECT * FROM `roles` WHERE `id` = ?";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, id);
@@ -90,7 +92,7 @@ public class RoleDatabaseDao extends MySqlConnection implements RoleDao {
     @Override
     public Set<Role> getAll() throws ExceptionDao {
         Set<Role> roles = new HashSet<>();
-        try(Connection connection = getConnection()) {
+        try(Connection connection = connections.getConnection()) {
             String strSql = ("SELECT * FROM `roles`");
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 try(ResultSet resultSet = statement.executeQuery()) {

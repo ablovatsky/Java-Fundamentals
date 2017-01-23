@@ -3,6 +3,7 @@ package servlet.users;
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.model.User;
 import itacademy.restaurants.service.ExceptionService;
+import itacademy.restaurants.service.UserService;
 import itacademy.restaurants.service.impl.UserDatabaseService;
 
 import javax.servlet.RequestDispatcher;
@@ -21,10 +22,10 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = "/registration", name = "registration")
 public class RegistrationServlet extends HttpServlet {
 
-    private UserDatabaseService userDatabaseService;
+    private UserService userService;
 
     public RegistrationServlet() {
-        userDatabaseService = new UserDatabaseService();
+        userService = UserDatabaseService.getInstance();
     }
 
     private static final String REGISTRATION_URL = "/WEB-INF/views/registration.jsp";
@@ -46,7 +47,7 @@ public class RegistrationServlet extends HttpServlet {
         if (Validator.isValid(username, password, confirmPassword)) {
             User user = new User(username, password, confirmPassword);
             try {
-                userDatabaseService.add(user);
+                userService.add(user);
                 session.setAttribute("USER", user);
                 resp.sendRedirect(RESTAURANTS_URL);
                 return;

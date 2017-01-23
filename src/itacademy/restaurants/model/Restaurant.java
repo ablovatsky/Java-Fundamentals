@@ -1,17 +1,22 @@
 package itacademy.restaurants.model;
 
-
-
-
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by aVa on 04.01.2017.
- */
+
 public class Restaurant extends Model {
 
     private String name;
+
+    private String website;
+
+    private String shortInformation;
+
+    private String phone;
+
+    private String workingHours;
+
+    private byte [] image;
 
     private Set<City> addresses;
 
@@ -21,15 +26,17 @@ public class Restaurant extends Model {
 
     private List<Comment> comments;
 
-    public Restaurant(String name, String information) {
-        this.name = name;
-        this.information = information;
-    }
-
-    public Restaurant(long id, String name, String information) {
+    public Restaurant(long id, String name, String website, String shortInformation, String workingHours, byte[] image, Set<City> addresses) {
         super(id);
         this.name = name;
-        this.information = information;
+        this.website = website;
+        this.shortInformation = shortInformation;
+        this.workingHours = workingHours;
+        this.image = image;
+        this.addresses = addresses;
+    }
+
+    public Restaurant() {
     }
 
     public String getName() {
@@ -70,6 +77,46 @@ public class Restaurant extends Model {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getShortInformation() {
+        return shortInformation;
+    }
+
+    public void setShortInformation(String shortInformation) {
+        this.shortInformation = shortInformation;
+    }
+
+    public String getWorkingHours() {
+        return workingHours;
+    }
+
+    public void setWorkingHours(String workingHours) {
+        this.workingHours = workingHours;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] immage) {
+        this.image = immage;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override

@@ -2,9 +2,7 @@ package itacademy.restaurants.model;
 
 import java.io.Serializable;
 
-/**
- * Created by aVa on 12.01.2017.
- */
+
 public class Model implements Serializable {
 
     private long id;

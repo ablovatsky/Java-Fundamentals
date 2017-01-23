@@ -2,6 +2,7 @@ package servlet.users;
 
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.model.User;
+import itacademy.restaurants.service.UserService;
 import itacademy.restaurants.service.impl.UserDatabaseService;
 
 import javax.servlet.RequestDispatcher;
@@ -23,10 +24,10 @@ public class LoginServlet extends HttpServlet {
     private static final String LOGIN_URL = "/WEB-INF/views/login.jsp";
     private static final String RESTAURANTS_URL = "/restaurants";
 
-    private UserDatabaseService userDatabaseService;
+    private UserService userService;
 
     public LoginServlet() {
-        userDatabaseService = new UserDatabaseService();
+        userService = UserDatabaseService.getInstance();
     }
 
     @Override
@@ -43,13 +44,13 @@ public class LoginServlet extends HttpServlet {
         RequestDispatcher dispatcher;
         User user = null;
         try {
-            user = userDatabaseService.getUserByNameAndPassword(username, password);
+            user = userService.getUserByNameAndPassword(username, password);
         } catch (ExceptionDao | SQLException exceptionDao) {
             exceptionDao.printStackTrace();
         }
         if (user != null) {
             session.setAttribute("USER", user);
-            req.setAttribute("user", user);
+            req.setAttribute("USER", user);
             resp.sendRedirect(RESTAURANTS_URL);
             return;
         }

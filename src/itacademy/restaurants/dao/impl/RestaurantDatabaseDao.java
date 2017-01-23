@@ -2,16 +2,29 @@ package itacademy.restaurants.dao.impl;
 
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.dao.RestaurantDao;
-import itacademy.restaurants.dao.connection.MySqlConnection;
-import itacademy.restaurants.model.*;
+import itacademy.restaurants.dao.connection.MySQL;
+import itacademy.restaurants.model.City;
+import itacademy.restaurants.model.Country;
+import itacademy.restaurants.model.Cuisine;
+import itacademy.restaurants.model.Restaurant;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by aVa on 13.01.2017.
- */
-public class RestaurantDatabaseDao extends MySqlConnection implements RestaurantDao {
+
+public class RestaurantDatabaseDao implements RestaurantDao {
+
+    private MySQL connections;
+
+    public RestaurantDatabaseDao() {
+        connections = MySQL.CONNECTIONS;
+    }
 
     @Override
     public long add(Restaurant restaurant) throws ExceptionDao {
@@ -37,7 +50,26 @@ public class RestaurantDatabaseDao extends MySqlConnection implements Restaurant
 
     @Override
     public Set<Restaurant> getAll() throws ExceptionDao {
-        return null;
+        Set<Restaurant> restaurants = new LinkedHashSet<>();
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "SELECT `id`, `name`, `website`, `working_hours`, `short_information`, `image` FROM restaurants ORDER BY `id` ASC";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Restaurant restaurant = new Restaurant();
+                        restaurant.setId(resultSet.getLong("id"));
+                        restaurant.setName(resultSet.getString("name"));
+                        restaurant.setWebsite(resultSet.getString("website"));
+                        restaurant.setShortInformation(resultSet.getString("short_information"));
+                        restaurant.setImage(resultSet.getBytes("image"));
+                        restaurants.add(restaurant);
+                    }
+                    return restaurants;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
     }
 
     @Override

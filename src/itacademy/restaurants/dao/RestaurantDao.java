@@ -1,6 +1,5 @@
 package itacademy.restaurants.dao;
 
-
 import itacademy.restaurants.model.City;
 import itacademy.restaurants.model.Country;
 import itacademy.restaurants.model.Cuisine;
@@ -8,9 +7,7 @@ import itacademy.restaurants.model.Restaurant;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by aVa on 06.01.2017.
- */
+
 public interface RestaurantDao extends ModelDao<Restaurant> {
 
     Restaurant getRestaurantByName(String name) throws ExceptionDao;
