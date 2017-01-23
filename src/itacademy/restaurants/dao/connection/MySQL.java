@@ -15,7 +15,10 @@ public enum MySQL {
 
     CONNECTIONS;
 
-    private String propertyFilePath = "e:\\Java\\restaurants\\restaurants\\src\\itacademy\\resources\\database.properties";
+    //private String propertyFilePath = "e:\\Java\\restaurants\\restaurants\\resources\\database\\database.properties";
+    private String propertyFilePath = "d:\\11.Course\\restaurants\\restaurants\\resources\\database\\database.properties";
+
+
     private DataSource dataSource;
     private String driverClassName;
     private String username;

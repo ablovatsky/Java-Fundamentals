@@ -64,8 +64,8 @@ public class RestaurantDatabaseService implements RestaurantService {
     }
 
     @Override
-    public Restaurant getRestaurantByName(String name) {
-        return null;
+    public Set<Restaurant> getRestaurantsByName(String name) {
+        return this.restaurantDao.getRestaurantsByName(name);
     }
 
     @Override
@@ -84,8 +84,8 @@ public class RestaurantDatabaseService implements RestaurantService {
     }
 
     @Override
-    public List<Restaurant> getRestaurantsByCuisine(Cuisine cuisine) {
-        return null;
+    public Set<Restaurant> getRestaurantsByCuisine(String name) {
+        return this.restaurantDao.getRestaurantsByCuisine(name);
     }
 
     @Override
@@ -104,12 +104,12 @@ public class RestaurantDatabaseService implements RestaurantService {
     }
 
     @Override
-    public List<Restaurant> getRestaurantsByCity(City city) {
-        return null;
+    public Set<Restaurant> getRestaurantsByCity(String name) {
+        return this.restaurantDao.getRestaurantsByCity(name);
     }
 
     @Override
-    public List<Restaurant> getRestaurantsByCountry(Country country) {
-        return null;
+    public Set<Restaurant> getRestaurantsByCountry(String name) {
+        return this.restaurantDao.getRestaurantsByCountry(name);
     }
 }

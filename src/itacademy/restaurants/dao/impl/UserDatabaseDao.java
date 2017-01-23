@@ -82,7 +82,7 @@ public class UserDatabaseDao implements UserDao {
     @Override
     public Set<Role> getUserRoles(User user) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT roles.name FROM roles INNER JOIN users_roles WHERE roles.id = users_roles.role_id AND users_roles.user_id = ?";
+            String sqlQuery = "SELECT roles.name FROM roles INNER JOIN users_roles ON roles.id = users_roles.role_id AND users_roles.user_id = ?";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, user.getId());
                 try(ResultSet resultSet = statement.executeQuery()) {

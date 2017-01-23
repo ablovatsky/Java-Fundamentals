@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public interface RestaurantService extends ModelService<Restaurant> {
 
-    Restaurant getRestaurantByName(String name);
+    Set<Restaurant> getRestaurantsByName(String name);
 
     Set<Cuisine> getRestaurantCuisines(Restaurant restaurant);
 
@@ -22,7 +22,7 @@ public interface RestaurantService extends ModelService<Restaurant> {
 
     void removeCuisineFromRestaurant(Restaurant restaurant, Cuisine cuisine);
 
-    List<Restaurant> getRestaurantsByCuisine(Cuisine cuisine);
+    Set<Restaurant> getRestaurantsByCuisine(String name);
 
     Set<City> getRestaurantAddresses(Restaurant restaurant);
 
@@ -30,8 +30,8 @@ public interface RestaurantService extends ModelService<Restaurant> {
 
     void removeAddressFromRestaurant(Restaurant restaurant, City city);
 
-    List<Restaurant> getRestaurantsByCity(City city);
+    Set<Restaurant> getRestaurantsByCity(String name);
 
-    List<Restaurant> getRestaurantsByCountry(Country country);
+    Set<Restaurant> getRestaurantsByCountry(String name);
 
 }

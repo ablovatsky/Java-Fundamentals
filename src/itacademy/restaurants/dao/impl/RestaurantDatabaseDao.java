@@ -45,6 +45,11 @@ public class RestaurantDatabaseDao implements RestaurantDao {
 
     @Override
     public Restaurant getById(long id) throws ExceptionDao {
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "";
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
         return null;
     }
 
@@ -52,7 +57,7 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     public Set<Restaurant> getAll() throws ExceptionDao {
         Set<Restaurant> restaurants = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT `id`, `name`, `website`, `working_hours`, `short_information`, `image` FROM restaurants ORDER BY `id` ASC";
+            String sqlQuery = "SELECT `id`, `name`, `website`, `short_information`, `image` FROM restaurants ORDER BY `id` ASC";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 try(ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
@@ -73,8 +78,28 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     }
 
     @Override
-    public Restaurant getRestaurantByName(String name) throws ExceptionDao {
-        return null;
+    public Set<Restaurant> getRestaurantsByName(String name) throws ExceptionDao {
+        Set<Restaurant> restaurants = new LinkedHashSet<>();
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "SELECT `id`, `name`, `website`, `short_information`, `image` FROM restaurants WHERE LOWER(`name`) LIKE ? ORDER BY `id` ASC";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setString(1, name.toLowerCase());
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Restaurant restaurant = new Restaurant();
+                        restaurant.setId(resultSet.getLong("id"));
+                        restaurant.setName(resultSet.getString("name"));
+                        restaurant.setWebsite(resultSet.getString("website"));
+                        restaurant.setShortInformation(resultSet.getString("short_information"));
+                        restaurant.setImage(resultSet.getBytes("image"));
+                        restaurants.add(restaurant);
+                    }
+                    return restaurants;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
     }
 
     @Override
@@ -93,8 +118,30 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     }
 
     @Override
-    public List<Restaurant> getRestaurantsByCuisine(Cuisine cuisine) {
-        return null;
+    public Set<Restaurant> getRestaurantsByCuisine(String name) {
+        Set<Restaurant> restaurants = new LinkedHashSet<>();
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "SELECT t1.id, t1.name, t1.website, t1.short_information, t1.image FROM restaurants t1 INNER JOIN\n" +
+                              "(SELECT t1.restaurant_id FROM restaurant_cuisine t1 INNER JOIN cuisines t2 ON t1.cuisine_id = t2.id WHERE t2.name LIKE ?) t2\n" +
+                              "ON t1.id = t2.restaurant_id";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setString(1, name.toLowerCase());
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Restaurant restaurant = new Restaurant();
+                        restaurant.setId(resultSet.getLong("id"));
+                        restaurant.setName(resultSet.getString("name"));
+                        restaurant.setWebsite(resultSet.getString("website"));
+                        restaurant.setShortInformation(resultSet.getString("short_information"));
+                        restaurant.setImage(resultSet.getBytes("image"));
+                        restaurants.add(restaurant);
+                    }
+                    return restaurants;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
     }
 
     @Override
@@ -113,12 +160,62 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     }
 
     @Override
-    public List<Restaurant> getRestaurantsByCity(City city) {
-        return null;
+    public Set<Restaurant> getRestaurantsByCity(String name) {
+        Set<Restaurant> restaurants = new LinkedHashSet<>();
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "SELECT t1.id, t1.name, t1.website, t1.short_information, t1.image FROM restaurants t1 " +
+                              "INNER JOIN " +
+                              "(SELECT address.restaurant_id, cities.name FROM address INNER JOIN cities ON address.city_id = cities.id WHERE LOWER(cities.name) LIKE ?) t2 " +
+                              "ON t1.id = t2.restaurant_id " +
+                              "ORDER BY `id` ASC";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setString(1, name.toLowerCase());
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Restaurant restaurant = new Restaurant();
+                        restaurant.setId(resultSet.getLong("id"));
+                        restaurant.setName(resultSet.getString("name"));
+                        restaurant.setWebsite(resultSet.getString("website"));
+                        restaurant.setShortInformation(resultSet.getString("short_information"));
+                        restaurant.setImage(resultSet.getBytes("image"));
+                        restaurants.add(restaurant);
+                    }
+                    return restaurants;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
     }
 
     @Override
-    public List<Restaurant> getRestaurantsByCountry(Country country) {
-        return null;
+    public Set<Restaurant> getRestaurantsByCountry(String name) {
+        Set<Restaurant> restaurants = new LinkedHashSet<>();
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "SELECT t1.id, t1.name, t1.website, t1.short_information, t1.image FROM restaurants t1 " +
+                              "INNER JOIN " +
+                              "((SELECT t1.restaurant_id FROM address t1 INNER JOIN " +
+                              "(SELECT t1.id FROM cities t1 INNER JOIN countries t2 ON t1.country_id = t2.id WHERE LOWER(t2.name) LIKE ?) t2 " +
+                              "ON t1.city_id = t2.id)) t2 " +
+                              "ON t1.id = t2.restaurant_id " +
+                              "ORDER BY `id` ASC";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setString(1, name.toLowerCase());
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Restaurant restaurant = new Restaurant();
+                        restaurant.setId(resultSet.getLong("id"));
+                        restaurant.setName(resultSet.getString("name"));
+                        restaurant.setWebsite(resultSet.getString("website"));
+                        restaurant.setShortInformation(resultSet.getString("short_information"));
+                        restaurant.setImage(resultSet.getBytes("image"));
+                        restaurants.add(restaurant);
+                    }
+                    return restaurants;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
     }
 }

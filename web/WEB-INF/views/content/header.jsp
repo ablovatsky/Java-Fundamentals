@@ -11,7 +11,7 @@
     <div class="user_menu">
         <ul id="menu">
             <li>
-               Рестораны
+                <a id="first_li" href="${pageContext.request.contextPath}/restaurants">Рестораны</a>
             </li>
             <li>
                 Мои отзывы

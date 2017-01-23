@@ -7,6 +7,11 @@
         <element id="directory" name="classes">
           <element id="module-output" name="restaurants" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="jstl-1.2" />
+          <element id="library" level="project" name="mysql-connector-java-5.1.40-bin" />
+          <element id="library" level="project" name="tomcat-jdbc" />
+        </element>
       </element>
     </root>
   </artifact>

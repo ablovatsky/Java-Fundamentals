@@ -25,7 +25,13 @@
     margin: 0px 0px 0px 5px;
 }
 
+#first_li {
+    color: #313131;
+}
 
+#first_li:hover {
+    color: #1b79da !important;
+}
 
 #menu {
     float:left;
@@ -50,9 +56,10 @@
     background: none;
 }
 
+
+
 #menu li a{
     display:block;
-    color:#fff;
     background: none;
     -moz-border-radius:2px;
     -webkit-border-radius:2px;

@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface RestaurantDao extends ModelDao<Restaurant> {
 
-    Restaurant getRestaurantByName(String name) throws ExceptionDao;
+    Set<Restaurant> getRestaurantsByName(String name) throws ExceptionDao;
 
     Set<Cuisine> getRestaurantCuisines(Restaurant restaurant) throws ExceptionDao;
 
@@ -18,7 +18,7 @@ public interface RestaurantDao extends ModelDao<Restaurant> {
 
     void removeCuisineFromRestaurant(Restaurant restaurant, Cuisine cuisine) throws ExceptionDao;
 
-    List<Restaurant> getRestaurantsByCuisine(Cuisine cuisine) throws ExceptionDao;
+    Set<Restaurant> getRestaurantsByCuisine(String name) throws ExceptionDao;
 
     Set<City> getRestaurantAddresses(Restaurant restaurant) throws ExceptionDao;
 
@@ -26,8 +26,8 @@ public interface RestaurantDao extends ModelDao<Restaurant> {
 
     void removeAddressFromRestaurant(Restaurant restaurant, City city) throws ExceptionDao;
 
-    List<Restaurant> getRestaurantsByCity(City city) throws ExceptionDao;
+    Set<Restaurant> getRestaurantsByCity(String name) throws ExceptionDao;
 
-    List<Restaurant> getRestaurantsByCountry(Country country) throws ExceptionDao;
+    Set<Restaurant> getRestaurantsByCountry(String name) throws ExceptionDao;
 
 }

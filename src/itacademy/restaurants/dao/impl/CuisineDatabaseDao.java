@@ -6,6 +6,7 @@ import itacademy.restaurants.model.Cuisine;
 import itacademy.restaurants.dao.CuisineDao;
 import java.sql.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -91,9 +92,9 @@ public class CuisineDatabaseDao implements CuisineDao {
 
     @Override
     public Set<Cuisine> getAll() {
-        Set<Cuisine> cuisines = new HashSet<>();
+        Set<Cuisine> cuisines = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String strSql = ("SELECT * FROM `cuisines`");
+            String strSql = ("SELECT * FROM `cuisines` ORDER BY `id` ASC");
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 try(ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {

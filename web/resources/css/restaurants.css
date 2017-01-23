@@ -45,7 +45,7 @@
 }
 
 .restaurants table{
-    width: 970px;
+    width: 770px;
 }
 
 table #td_img {
@@ -75,6 +75,26 @@ table #td_img {
 #rest_inf {
     padding: 0px 10px;
     float: left;
-    width: 770px;
+    width: 570px;
     height: 200px;
+}
+
+.cuisine{
+    float: left;
+    width: 200px;
+    height: 300px;
+}
+
+.restaurants {
+    float: left;
+    width: 770px;
+}
+
+.left_menu {
+    list-style-type: none;
+    padding: 0px;
+}
+
+.left_menu li {
+    padding: 6px 5px;
 }
