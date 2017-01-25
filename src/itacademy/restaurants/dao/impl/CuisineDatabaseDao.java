@@ -21,7 +21,7 @@ public class CuisineDatabaseDao implements CuisineDao {
     @Override
     public Cuisine getCuisineByName(String name) {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "SELECT * FROM `cuisines` WHERE `name` LIKE ?";
+            String strSql = "SELECT * FROM `cuisines` WHERE `name` LIKE ?;";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setString(1, name);
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -39,7 +39,7 @@ public class CuisineDatabaseDao implements CuisineDao {
     @Override
     public long add(Cuisine cuisine) {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "INSERT INTO `cuisines` (`name`) VALUES (?)";
+            String strSql = "INSERT INTO `cuisines` (`name`) VALUES (?);";
             try(PreparedStatement statement = connection.prepareStatement(strSql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, cuisine.getName());
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -62,7 +62,7 @@ public class CuisineDatabaseDao implements CuisineDao {
     @Override
     public boolean remove(Cuisine cuisine) {
         try(Connection connection = connections.getConnection()){
-            String strSql = "DELETE FROM `cuisines` WHERE `id` = ?";
+            String strSql = "DELETE FROM `cuisines` WHERE `id` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, cuisine.getId());
                 return statement.execute();
@@ -75,7 +75,7 @@ public class CuisineDatabaseDao implements CuisineDao {
     @Override
     public Cuisine getById(long id) {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "SELECT * FROM `cuisines` WHERE `id` = ?";
+            String strSql = "SELECT * FROM `cuisines` WHERE `id` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, id);
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -94,7 +94,7 @@ public class CuisineDatabaseDao implements CuisineDao {
     public Set<Cuisine> getAll() {
         Set<Cuisine> cuisines = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String strSql = ("SELECT * FROM `cuisines` ORDER BY `id` ASC");
+            String strSql = ("SELECT * FROM `cuisines` ORDER BY `id` ASC;");
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 try(ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {

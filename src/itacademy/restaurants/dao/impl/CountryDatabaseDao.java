@@ -20,7 +20,7 @@ public class CountryDatabaseDao implements CountryDao {
     @Override
     public Country getCountryByName(String name) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "SELECT * FROM `countries` WHERE `name` LIKE ?";
+            String strSql = "SELECT * FROM `countries` WHERE `name` LIKE ?;";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setString(1, name);
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -38,7 +38,7 @@ public class CountryDatabaseDao implements CountryDao {
     @Override
     public long add(Country country) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "INSERT INTO `countries` (`name`) VALUES (?)";
+            String strSql = "INSERT INTO `countries` (`name`) VALUES (?);";
             try(PreparedStatement statement = connection.prepareStatement(strSql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, country.getName());
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -61,7 +61,7 @@ public class CountryDatabaseDao implements CountryDao {
     @Override
     public boolean remove(Country country) throws ExceptionDao {
         try(Connection connection = connections.getConnection()){
-            String strSql = "DELETE FROM `countries` WHERE `id` = ?";
+            String strSql = "DELETE FROM `countries` WHERE `id` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, country.getId());
                 return statement.execute();
@@ -74,7 +74,7 @@ public class CountryDatabaseDao implements CountryDao {
     @Override
     public Country getById(long id) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "SELECT * FROM `countries` WHERE `id` = ?";
+            String strSql = "SELECT * FROM `countries` WHERE `id` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, id);
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -93,7 +93,7 @@ public class CountryDatabaseDao implements CountryDao {
     public Set<Country> getAll() throws ExceptionDao {
         Set<Country> countries = new HashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String strSql = ("SELECT * FROM `countries`");
+            String strSql = ("SELECT * FROM `countries`;");
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 try(ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {

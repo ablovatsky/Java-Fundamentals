@@ -3,10 +3,7 @@ package itacademy.restaurants.service.impl;
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.dao.RestaurantDao;
 import itacademy.restaurants.dao.impl.RestaurantDatabaseDao;
-import itacademy.restaurants.model.City;
-import itacademy.restaurants.model.Country;
-import itacademy.restaurants.model.Cuisine;
-import itacademy.restaurants.model.Restaurant;
+import itacademy.restaurants.model.*;
 import itacademy.restaurants.service.ExceptionService;
 import itacademy.restaurants.service.RestaurantService;
 
@@ -55,7 +52,7 @@ public class RestaurantDatabaseService implements RestaurantService {
 
     @Override
     public Restaurant getById(long id) {
-        return null;
+        return this.restaurantDao.getById(id);
     }
 
     @Override
@@ -111,5 +108,10 @@ public class RestaurantDatabaseService implements RestaurantService {
     @Override
     public Set<Restaurant> getRestaurantsByCountry(String name) {
         return this.restaurantDao.getRestaurantsByCountry(name);
+    }
+
+    @Override
+    public List<Comment> getRestaurantComments(long id) {
+        return this.restaurantDao.getRestaurantComments(id);
     }
 }

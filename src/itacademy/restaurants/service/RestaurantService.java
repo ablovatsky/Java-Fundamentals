@@ -1,10 +1,7 @@
 package itacademy.restaurants.service;
 
 
-import itacademy.restaurants.model.Country;
-import itacademy.restaurants.model.Cuisine;
-import itacademy.restaurants.model.Restaurant;
-import itacademy.restaurants.model.City;
+import itacademy.restaurants.model.*;
 
 import java.util.List;
 import java.util.Set;
@@ -33,5 +30,7 @@ public interface RestaurantService extends ModelService<Restaurant> {
     Set<Restaurant> getRestaurantsByCity(String name);
 
     Set<Restaurant> getRestaurantsByCountry(String name);
+
+    List<Comment> getRestaurantComments(long id);
 
 }

@@ -3,16 +3,13 @@ package itacademy.restaurants.dao.impl;
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.dao.RestaurantDao;
 import itacademy.restaurants.dao.connection.MySQL;
-import itacademy.restaurants.model.City;
-import itacademy.restaurants.model.Country;
-import itacademy.restaurants.model.Cuisine;
-import itacademy.restaurants.model.Restaurant;
+import itacademy.restaurants.model.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +44,7 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     public Restaurant getById(long id) throws ExceptionDao {
         Restaurant restaurant = new Restaurant();
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT * FROM `restaurants` WHERE `id` = ?";
+            String sqlQuery = "SELECT * FROM `restaurants` WHERE `id` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, id);
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -62,7 +59,10 @@ public class RestaurantDatabaseDao implements RestaurantDao {
                     }
                 }
             }
-            sqlQuery = "SELECT t1.id, t1.name FROM cuisines t1 INNER JOIN restaurant_cuisine t2 ON t1.id = t2.cuisine_id WHERE t2.restaurant_id = ?";
+            sqlQuery = "SELECT t1.id, t1.name " +
+                        "FROM cuisines t1 " +
+                        "INNER JOIN restaurant_cuisine t2 ON t1.id = t2.cuisine_id " +
+                        "WHERE t2.restaurant_id = ?;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, id);
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -73,9 +73,11 @@ public class RestaurantDatabaseDao implements RestaurantDao {
                     restaurant.setCuisines(cuisines);
                 }
             }
-            sqlQuery = "SELECT t1.id AS country_id, t1.name AS country_name, t2.id AS city_id, t2.name AS city_name FROM countries t1 INNER JOIN " +
-                        "(SELECT t1.id, t1.name, t1.country_id FROM cities t1 INNER JOIN address t2 ON t1.id = t2.city_id WHERE t2.restaurant_id = ?) t2 " +
-                        "ON t1.id = t2.country_id";
+            sqlQuery = "SELECT t3.id AS country_id, t3.name AS country_name, t1.id AS city_id, t1.name AS city_name " +
+                        "FROM cities t1 " +
+                        "INNER JOIN address t2 ON t1.id = t2.city_id " +
+                        "INNER JOIN countries t3 ON t3.id = t1.country_id " +
+                        "WHERE t2.restaurant_id = ?;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, id);
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -96,7 +98,7 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     public Set<Restaurant> getAll() throws ExceptionDao {
         Set<Restaurant> restaurants = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT `id`, `name`, `website`, `short_information`, `image` FROM restaurants ORDER BY `id` ASC";
+            String sqlQuery = "SELECT `id`, `name`, `website`, `short_information`, `image` FROM restaurants ORDER BY `id` ASC;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 try(ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
@@ -120,7 +122,7 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     public Set<Restaurant> getRestaurantsByName(String name) throws ExceptionDao {
         Set<Restaurant> restaurants = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT `id`, `name`, `website`, `short_information`, `image` FROM restaurants WHERE LOWER(`name`) LIKE ? ORDER BY `id` ASC";
+            String sqlQuery = "SELECT `id`, `name`, `website`, `short_information`, `image` FROM restaurants WHERE LOWER(`name`) LIKE ? ORDER BY `id` ASC;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, name.toLowerCase());
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -160,9 +162,11 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     public Set<Restaurant> getRestaurantsByCuisine(String name) {
         Set<Restaurant> restaurants = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT t1.id, t1.name, t1.website, t1.short_information, t1.image FROM restaurants t1 INNER JOIN\n" +
-                              "(SELECT t1.restaurant_id FROM restaurant_cuisine t1 INNER JOIN cuisines t2 ON t1.cuisine_id = t2.id WHERE t2.name LIKE ?) t2\n" +
-                              "ON t1.id = t2.restaurant_id";
+            String sqlQuery = "SELECT t3.id, t3.name, t3.website, t3.short_information, t3.image " +
+                                "FROM restaurant_cuisine t1 " +
+                                "INNER JOIN cuisines t2 ON t1.cuisine_id = t2.id " +
+                                "INNER JOIN restaurants t3 ON t1.restaurant_id = t3.id " +
+                                "WHERE LOWER(t2.name) LIKE ?;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, name.toLowerCase());
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -202,11 +206,12 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     public Set<Restaurant> getRestaurantsByCity(String name) {
         Set<Restaurant> restaurants = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT t1.id, t1.name, t1.website, t1.short_information, t1.image FROM restaurants t1 " +
-                              "INNER JOIN " +
-                              "(SELECT address.restaurant_id, cities.name FROM address INNER JOIN cities ON address.city_id = cities.id WHERE LOWER(cities.name) LIKE ?) t2 " +
-                              "ON t1.id = t2.restaurant_id " +
-                              "ORDER BY `id` ASC";
+            String sqlQuery = "SELECT t1.id, t1.name, t1.website, t1.short_information, t1.image " +
+                                "FROM restaurants t1 " +
+                                "INNER JOIN address t2 ON t1.id = t2.restaurant_id " +
+                                "INNER JOIN cities t3 ON t2.city_id = t3.id " +
+                                "WHERE LOWER(t3.name) LIKE ? " +
+                                "ORDER BY t1.id ASC";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, name.toLowerCase());
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -231,13 +236,13 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     public Set<Restaurant> getRestaurantsByCountry(String name) {
         Set<Restaurant> restaurants = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT t1.id, t1.name, t1.website, t1.short_information, t1.image FROM restaurants t1 " +
-                              "INNER JOIN " +
-                              "((SELECT t1.restaurant_id FROM address t1 INNER JOIN " +
-                              "(SELECT t1.id FROM cities t1 INNER JOIN countries t2 ON t1.country_id = t2.id WHERE LOWER(t2.name) LIKE ?) t2 " +
-                              "ON t1.city_id = t2.id)) t2 " +
-                              "ON t1.id = t2.restaurant_id " +
-                              "ORDER BY `id` ASC";
+            String sqlQuery = "SELECT t1.id, t1.name, t1.website, t1.short_information, t1.image " +
+                                "FROM restaurants t1 " +
+                                "INNER JOIN address t2 ON t1.id = t2.restaurant_id " +
+                                "INNER JOIN cities t3 ON t2.city_id = t3.id " +
+                                "INNER JOIN countries t4 ON t3.country_id = t4.id " +
+                                "WHERE LOWER(t4.name) LIKE ? " +
+                                "ORDER BY t1.id ASC;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, name.toLowerCase());
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -251,6 +256,33 @@ public class RestaurantDatabaseDao implements RestaurantDao {
                         restaurants.add(restaurant);
                     }
                     return restaurants;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
+    }
+
+    @Override
+    public List<Comment> getRestaurantComments(long id) throws ExceptionDao {
+        List<Comment> comments = new ArrayList<>();
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "SELECT t1.comment, t1.date, t3.username " +
+                    "FROM comments t1 " +
+                    "INNER JOIN restaurants t2 ON t1.restaurant_id = t2.id " +
+                    "INNER JOIN users t3 ON t1.user_id = t3.id " +
+                    "WHERE t2.id = ?;";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, id);
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Comment comment = new Comment();
+                        comment.setComment(resultSet.getString("comment"));
+                        comment.setDate(resultSet.getDate("date"));
+                        comment.setUser(new User(resultSet.getString("username")));
+                        comments.add(comment);
+                    }
+                    return comments;
                 }
             }
         } catch (SQLException e) {

@@ -43,7 +43,7 @@ public class UserDatabaseDao implements UserDao {
     @Override
     public long getUserIdByName(String username) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT `id` FROM `users`  WHERE `username` = ?";
+            String sqlQuery = "SELECT `id` FROM `users`  WHERE `username` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, username);
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -61,7 +61,7 @@ public class UserDatabaseDao implements UserDao {
     @Override
     public User getUserByNameAndPassword(String username, String password) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT * FROM `users`  WHERE `username` = ? AND `password` = ?";
+            String sqlQuery = "SELECT * FROM `users`  WHERE `username` = ? AND `password` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setString(1, username);
                 statement.setString(2, md5Custom(password));
@@ -82,7 +82,7 @@ public class UserDatabaseDao implements UserDao {
     @Override
     public Set<Role> getUserRoles(User user) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String sqlQuery = "SELECT roles.name FROM roles INNER JOIN users_roles ON roles.id = users_roles.role_id AND users_roles.user_id = ?";
+            String sqlQuery = "SELECT roles.name FROM roles INNER JOIN users_roles ON roles.id = users_roles.role_id AND users_roles.user_id = ?;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, user.getId());
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -106,7 +106,7 @@ public class UserDatabaseDao implements UserDao {
         try{
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             connection.setAutoCommit(false);
-            String sqlQuery = "INSERT INTO `users` (`username`, `password`) VALUES (?, ?)";
+            String sqlQuery = "INSERT INTO `users` (`username`, `password`) VALUES (?, ?);";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, user.getUsername());
                 statement.setString(2, md5Custom(user.getPassword()));
@@ -117,7 +117,7 @@ public class UserDatabaseDao implements UserDao {
                     }
                 }
             }
-            sqlQuery = "SELECT `id` FROM `roles` WHERE `name` LIKE 'user'";
+            sqlQuery = "SELECT `id` FROM `roles` WHERE `name` LIKE 'user';";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 try(ResultSet resultSet = statement.executeQuery() ) {
                     if (resultSet.next()) {
@@ -126,7 +126,7 @@ public class UserDatabaseDao implements UserDao {
                 }
             }
             if (roleId > 0) {
-                sqlQuery = "INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES (?, ?)";
+                sqlQuery = "INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES (?, ?);";
                 try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                     statement.setLong(1, userId);
                     statement.setLong(2, roleId);
@@ -156,7 +156,7 @@ public class UserDatabaseDao implements UserDao {
     @Override
     public boolean remove(User user) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "DELETE FROM `users` WHERE `id` = ?";
+            String strSql = "DELETE FROM `users` WHERE `id` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, user.getId());
                 return statement.execute();
@@ -169,7 +169,7 @@ public class UserDatabaseDao implements UserDao {
     @Override
     public User getById(long id) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "SELECT * FROM `users` WHERE `id` = ?";
+            String strSql = "SELECT * FROM `users` WHERE `id` = ?;";
             try(PreparedStatement statement = connection.prepareStatement(strSql)) {
                 statement.setLong(1, id);
                 try(ResultSet resultSet = statement.executeQuery()) {

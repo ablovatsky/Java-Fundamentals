@@ -52,10 +52,10 @@
                 <c:forEach items="${restaurants}" var="restaurant">
                     <div class="restaurant">
                         <div id="rest_img">
-                            <a href="#"><img src="${pageContext.request.contextPath}/image?index=${restaurant.id}" alt="Img"/></a>
+                            <a href="${pageContext.request.contextPath}/restaurant?id=${restaurant.id}"><img src="${pageContext.request.contextPath}/image?index=${restaurant.id}" alt="Img"/></a>
                         </div>
                         <div id="rest_inf">
-                            <a href="#">${restaurant.name}</a><br/><br/>
+                            <a href="${pageContext.request.contextPath}/restaurant?id=${restaurant.id}">${restaurant.name}</a><br/><br/>
                             ${restaurant.shortInformation}<br/><br/>
                             <a href="http://${restaurant.website}">${restaurant.website}</a>
                         </div>

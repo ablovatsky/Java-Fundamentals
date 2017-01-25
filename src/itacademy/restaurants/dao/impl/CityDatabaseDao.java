@@ -21,8 +21,8 @@ public class CityDatabaseDao implements CityDao {
     @Override
     public long add(City city) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "INSERT INTO `cities` (`name`, `country_id`) VALUES (?, ?)";
-            try(PreparedStatement statement = connection.prepareStatement(strSql, Statement.RETURN_GENERATED_KEYS)) {
+            String sqlQuery = "INSERT INTO `cities` (`name`, `country_id`) VALUES (?, ?);";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, city.getName());
                 statement.setLong(2, city.getCountry().getId());
                 try(ResultSet resultSet = statement.executeQuery()) {
@@ -45,8 +45,8 @@ public class CityDatabaseDao implements CityDao {
     @Override
     public boolean remove(City city) throws ExceptionDao {
         try(Connection connection = connections.getConnection()){
-            String strSql = "DELETE FROM `cities` WHERE `id` = ?";
-            try(PreparedStatement statement = connection.prepareStatement(strSql)) {
+            String sqlQuery = "DELETE FROM `cities` WHERE `id` = ?;";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, city.getId());
                 return statement.execute();
             }
@@ -58,8 +58,8 @@ public class CityDatabaseDao implements CityDao {
     @Override
     public City getById(long id) throws ExceptionDao {
         try(Connection connection = connections.getConnection()) {
-            String strSql = "SELECT * FROM `cities` WHERE `id` = ?";
-            try(PreparedStatement statement = connection.prepareStatement(strSql)) {
+            String sqlQuery = "SELECT * FROM `cities` WHERE `id` = ?;";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, id);
                 try(ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
