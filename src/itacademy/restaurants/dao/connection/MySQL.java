@@ -15,8 +15,8 @@ public enum MySQL {
 
     CONNECTIONS;
 
-    //private String propertyFilePath = "e:\\Java\\restaurants\\restaurants\\resources\\database\\database.properties";
-    private String propertyFilePath = "d:\\11.Course\\restaurants\\restaurants\\resources\\database\\database.properties";
+    private String propertyFilePath = "e:\\Java\\restaurants\\restaurants\\resources\\database\\database.properties";
+    //private String propertyFilePath = "d:\\11.Course\\restaurants\\restaurants\\resources\\database\\database.properties";
 
 
     private DataSource dataSource;

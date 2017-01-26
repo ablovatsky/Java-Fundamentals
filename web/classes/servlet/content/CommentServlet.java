@@ -7,7 +7,6 @@ import itacademy.restaurants.model.Comment;
 import itacademy.restaurants.service.RestaurantService;
 import itacademy.restaurants.service.impl.RestaurantDatabaseService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,11 +28,9 @@ public class CommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         JsonReader reader = new JsonReader(new InputStreamReader(req.getInputStream(), "UTF-8"));
+        reader.setLenient(true);
         Comment comment = new Gson().fromJson(reader, Comment.class);
         restaurantService.addCommentToRestaurant(comment);
-        String newUrl = req.getHeader("referer").replaceAll("http://localhost:8080", "");
-        resp.setContentType("text/html");
-        resp.sendRedirect(newUrl);
         reader.close();
     }
 }

@@ -32,7 +32,7 @@
 
 <div class="content">
     <div class="search">
-        <form action="/search" method="POST">
+        <form action="/administration/search" method="POST">
             <input name="name" type="text" class="input-search" placeholder="Поиск" autofocus="true"/>
             <button class="btn btn-lg btn-primary btn-block button-search" type="submit">Поиск</button>
             <select size="1" id="search_type" name="search_type">

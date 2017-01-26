@@ -40,7 +40,7 @@
         <div>
             <p>Тип кухни *: </p>
             <c:forEach var="cuisine" items="${cuisines}">
-                <input type="checkbox" id="${cuisine.getName()}" name="${cuisine.getName()}" value="${cuisine.getName()}">
+                <input type="checkbox" id="${cuisine.getName()}" name="checkBox" value="${cuisine.getId()}">
                 <label from="${cuisine.getName()}">${cuisine.getName()}</label>
             </c:forEach>
         </div>
@@ -56,7 +56,7 @@
         <div>
             <p>Вэб сайт *: </p> <input id="website" name="website" type="text" class="form-control" placeholder="Вэб сайт" />
         </div>
-
+        <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" >Добавить</button>
     </div>
 
 
@@ -65,7 +65,12 @@
 
             $(document).ready(function () {
                 $("#button").click(function () {
-                    var comment = document.getElementById('newComment').value;
+                    var cuisines = document.getElementsByName("checkBox");
+                    for(var i=0; i<cuisines.length; i++)
+                        if (cuisines[i].checked) {
+                            alert( cuisines[i].value );
+                        }
+                   /* var comment = document.getElementById('newComment').value;
                     if (comment != ""){
                         var json ="{restaurant: { id:" + ${restaurant.getId()} + "}, user: { id:" + ${sessionScope.USER.getId()} + "}, comment: " + comment + " }";
                         $.ajax({
@@ -74,7 +79,7 @@
                             url: "/addComment"
                         })
                         location.reload();
-                    }
+                    }*/
                 })
             })
         </script>

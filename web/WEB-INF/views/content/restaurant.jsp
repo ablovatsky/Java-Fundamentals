@@ -92,13 +92,19 @@
                 $("#button").click(function () {
                     var comment = document.getElementById('newComment').value;
                     if (comment != ""){
-                        var json ="{restaurant: { id:" + ${restaurant.getId()} + "}, user: { id:" + ${sessionScope.USER.getId()} + "}, comment: " + comment + " }";
+                        var json ="{restaurant: {id: " + ${restaurant.getId()} + " }, user: {id: " + ${sessionScope.USER.getId()} + " }, comment: \"" + comment.trim() + "\" }";
                         $.ajax({
                             type: "POST",
                             data: json,
-                            url: "/addComment"
+                            url: "/addComment",
+                            success: function(res) {
+                                location.reload();
+                            },
+                            error: function(res) {
+                                location.reload();
+                            }
                         })
-                        location.reload();
+
                     }
                 })
             })

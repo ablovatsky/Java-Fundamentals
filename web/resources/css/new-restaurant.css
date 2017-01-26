@@ -5,6 +5,7 @@
 #newRestaurant p {
     float: left;
     width: 250px;
+    color: #23527c;
 }
 
 #newRestaurant input textarea {
