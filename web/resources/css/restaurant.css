@@ -1,5 +1,7 @@
 #information {
     margin-top: 80px;
+    width: 970px;
+    min-height: 300px;
 }
 
 #information img {
@@ -13,7 +15,7 @@
     font-size: 22px;
 }
 
-#text {
+#phoneText {
     float: left;
     color: #23527c;
     font-size: 15px;
@@ -21,7 +23,55 @@
     width: 120px;
 }
 
-#value {
+#phoneValue {
+    padding-left: 10px;
+    float: left;
+    height: 30px;
+    width: 800px;
+    font-size: 15px;
+}
+
+#websiteText {
+    float: left;
+    color: #23527c;
+    font-size: 15px;
+    height: 30px;
+    width: 120px;
+}
+
+#websiteValue {
+    padding-left: 10px;
+    float: left;
+    height: 30px;
+    width: 800px;
+    font-size: 15px;
+}
+
+#addressesText {
+    float: left;
+    color: #23527c;
+    font-size: 15px;
+    height: 30px;
+    width: 120px;
+}
+
+#addressesValue {
+    padding-left: 10px;
+    float: left;
+    height: 30px;
+    width: 800px;
+    font-size: 15px;
+}
+
+#workingHoursText {
+    float: left;
+    color: #23527c;
+    font-size: 15px;
+    height: 30px;
+    width: 120px;
+}
+
+#workingHoursValue {
     padding-left: 10px;
     float: left;
     height: 30px;
@@ -41,25 +91,53 @@
 }
 
 #comment {
+    background: white;
     border: solid 1px #204d74;
     border-radius: 6px 6px 0px 0px;
     margin: 10px 10px;
 }
+
+#comments label {
+    margin: 10px;
+}
+
+.button-addComment {
+    float: right;
+    margin-top: 10px;
+    width: 210px;
+}
+
 #username {
     float: left;
     height: 35px;
-    width: 100%;
+    width: 50%;
     padding: 5px 10px;
     color: #fff;
     background-color: #337ab7;
 }
 
-#username p {
+textarea {
+    resize: none;
+}
+
+#date {
+    float: left;
+    height: 35px;
+    width: 50%;
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #337ab7;
+}
+
+#date p {
     float: right;
+}
+
+#username p {
+    float: left;
 }
 
 #textComment {
     width: 100%;
-    min-height: 100px;
-    padding: 15px 10px;
+    padding: 40px 10px 0px;
 }

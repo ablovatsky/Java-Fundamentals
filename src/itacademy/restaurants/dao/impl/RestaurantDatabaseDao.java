@@ -59,35 +59,8 @@ public class RestaurantDatabaseDao implements RestaurantDao {
                     }
                 }
             }
-            sqlQuery = "SELECT t1.id, t1.name " +
-                        "FROM cuisines t1 " +
-                        "INNER JOIN restaurant_cuisine t2 ON t1.id = t2.cuisine_id " +
-                        "WHERE t2.restaurant_id = ?;";
-            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-                statement.setLong(1, id);
-                try(ResultSet resultSet = statement.executeQuery()) {
-                    Set<Cuisine> cuisines = new LinkedHashSet<>();
-                    while (resultSet.next()) {
-                       cuisines.add(new Cuisine(resultSet.getLong("id"), resultSet.getString("name")));
-                    }
-                    restaurant.setCuisines(cuisines);
-                }
-            }
-            sqlQuery = "SELECT t3.id AS country_id, t3.name AS country_name, t1.id AS city_id, t1.name AS city_name " +
-                        "FROM cities t1 " +
-                        "INNER JOIN address t2 ON t1.id = t2.city_id " +
-                        "INNER JOIN countries t3 ON t3.id = t1.country_id " +
-                        "WHERE t2.restaurant_id = ?;";
-            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-                statement.setLong(1, id);
-                try(ResultSet resultSet = statement.executeQuery()) {
-                    Set<City> cities = new LinkedHashSet<>();
-                    while (resultSet.next()) {
-                        cities.add(new City(resultSet.getLong("city_id"), resultSet.getString("city_name"), new Country(resultSet.getLong("country_id"), resultSet.getString("country_name"))));
-                    }
-                    restaurant.setAddresses(cities);
-                }
-            }
+            restaurant.setCuisines(getRestaurantCuisines(restaurant));
+            restaurant.setAddresses(getRestaurantAddresses(restaurant));
             return restaurant;
         } catch (SQLException e) {
             throw new ExceptionDao("", e);
@@ -145,10 +118,27 @@ public class RestaurantDatabaseDao implements RestaurantDao {
 
     @Override
     public Set<Cuisine> getRestaurantCuisines(Restaurant restaurant) throws ExceptionDao {
-        return null;
+        try (Connection connection = connections.getConnection()) {
+            String sqlQuery = "SELECT t1.id, t1.name " +
+                    "FROM cuisines t1 " +
+                    "INNER JOIN restaurant_cuisine t2 ON t1.id = t2.cuisine_id " +
+                    "WHERE t2.restaurant_id = ?;";
+            try (PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, restaurant.getId());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    Set<Cuisine> cuisines = new LinkedHashSet<>();
+                    while (resultSet.next()) {
+                        cuisines.add(new Cuisine(resultSet.getLong("id"), resultSet.getString("name")));
+                    }
+                    return cuisines;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
     }
 
-    @Override
+        @Override
     public void addCuisineToRestaurant(Restaurant restaurant, Cuisine cuisine) throws ExceptionDao {
 
     }
@@ -189,7 +179,25 @@ public class RestaurantDatabaseDao implements RestaurantDao {
 
     @Override
     public Set<City> getRestaurantAddresses(Restaurant restaurant) {
-        return null;
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "SELECT t3.id AS country_id, t3.name AS country_name, t1.id AS city_id, t1.name AS city_name " +
+                    "FROM cities t1 " +
+                    "INNER JOIN address t2 ON t1.id = t2.city_id " +
+                    "INNER JOIN countries t3 ON t3.id = t1.country_id " +
+                    "WHERE t2.restaurant_id = ?;";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, restaurant.getId());
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    Set<City> cities = new LinkedHashSet<>();
+                    while (resultSet.next()) {
+                        cities.add(new City(resultSet.getLong("city_id"), resultSet.getString("city_name"), new Country(resultSet.getLong("country_id"), resultSet.getString("country_name"))));
+                    }
+                    return cities;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
     }
 
     @Override

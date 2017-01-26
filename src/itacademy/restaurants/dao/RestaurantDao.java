@@ -30,4 +30,6 @@ public interface RestaurantDao extends ModelDao<Restaurant> {
 
     List<Comment> getRestaurantComments(long id) throws ExceptionDao;
 
+    void addCommentToRestaurant() throws ExceptionDao;
+
 }

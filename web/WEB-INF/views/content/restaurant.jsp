@@ -20,28 +20,30 @@
     <body>
     <jsp:include page="header.jsp"/>
     <c:set var="restaurant" value="${requestScope.restaurant}"/>
-    <div id="information">
-        <p id="headInformation"> ${restaurant.name}</p>
-        <p id="textInformation">
-            <img src="${pageContext.request.contextPath}/image?index=${restaurant.id}" alt="Img"/>
-            ${restaurant.information}
-        </p>
-        <p></p>
-        <d id="text">Время работы: </d>
-        <d id="value"> ${restaurant.workingHours}</d>
+    <div>
+
+        <div id="information">
+            <p id="headInformation"> ${restaurant.name}</p>
+            <p id="textInformation">
+                <img src="${pageContext.request.contextPath}/image?index=${restaurant.id}" alt="Img"/>
+                ${restaurant.information}
+            </p>
+        </div>
+        <div id="workingHoursText">Время работы: </div>
+        <div id="workingHoursValue"> ${restaurant.workingHours}</div>
         <br/>
-        <d id="text">Тел.: </d>
-        <d id="value"> ${restaurant.phone}</d>
+        <div id="phoneText">Тел.: </div>
+        <div id="phoneValue"> ${restaurant.phone}</div>
         <br/>
-        <d id="text">Адресс: </d>
-        <d id="value">
+        <div id="addressesText">Адресс: </div>
+        <div id="addressesValue">
                 <c:forEach var="address" items="${restaurant.addresses}">
                 ${address.toString()}<br/>
             </c:forEach>
-        </d>
+        </div>
         <br/>
-        <d id="text">Сайт: </d>
-        <d id="value"> <a href="http://${restaurant.website}">${restaurant.website}</a></d>
+        <div id="websiteText">Сайт: </div>
+        <div id="websiteValue"> <a href="http://${restaurant.website}">${restaurant.website}</a></div>
 
     </div>
     <div id="comments">
@@ -53,6 +55,11 @@
                         ${comment.getUser().getUsername()}
                     </p>
                 </div>
+                <div id="date">
+                    <p>
+                        ${comment.getDate()}
+                    </p>
+                </div>
                 <div id="textComment">
                     <p>
                         ${comment.getComment()}
@@ -60,7 +67,20 @@
                 </div>
             </div>
         </c:forEach>
+        <br/>
+        <form action="/addComment" method="POST">
+            <label>
+                <p>
+                    Добавить коментарий...
+                </p>
+                <textarea rows="10" cols="116" name="text"></textarea>
+                <button class="btn btn-lg btn-primary btn-block button-addComment" type="submit">Добавить</button>
+            </label>
+        </form>
+
+
     </div>
+
 
 
 
