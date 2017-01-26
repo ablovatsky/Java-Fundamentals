@@ -114,4 +114,9 @@ public class RestaurantDatabaseService implements RestaurantService {
     public List<Comment> getRestaurantComments(long id) {
         return this.restaurantDao.getRestaurantComments(id);
     }
+
+    @Override
+    public void addCommentToRestaurant(Comment comment) {
+        this.restaurantDao.addCommentToRestaurant(comment);
+    }
 }

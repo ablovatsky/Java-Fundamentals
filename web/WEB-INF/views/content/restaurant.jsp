@@ -15,6 +15,9 @@
         <link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet" media="all">
         <link href="${pageContext.request.contextPath}/resources/css/restaurant.css" rel="stylesheet" media="all">
         <link href="${pageContext.request.contextPath}/resources/css/header.css" rel="stylesheet" media="all">
+        <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.js"></script>
+
+
 
     </head>
     <body>
@@ -28,6 +31,12 @@
                 <img src="${pageContext.request.contextPath}/image?index=${restaurant.id}" alt="Img"/>
                 ${restaurant.information}
             </p>
+        </div>
+        <div id="cuisinesText">Кухни: </div>
+        <div id="cuisinesValue">
+            <c:forEach var="cuisine" items="${restaurant.cuisines}">
+                ${cuisine.getName()}<br/>
+            </c:forEach>
         </div>
         <div id="workingHoursText">Время работы: </div>
         <div id="workingHoursValue"> ${restaurant.workingHours}</div>
@@ -68,21 +77,31 @@
             </div>
         </c:forEach>
         <br/>
-        <form action="/addComment" method="POST">
-            <label>
-                <p>
-                    Добавить коментарий...
-                </p>
-                <textarea rows="10" cols="116" name="text"></textarea>
-                <button class="btn btn-lg btn-primary btn-block button-addComment" type="submit">Добавить</button>
-            </label>
-        </form>
+        <label>
+            <p>
+                Добавить коментарий...
+            </p>
+            <textarea id="newComment" rows="10" cols="116" name="text"></textarea>
+        </label>
+        <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" >Добавить</button>
+
+        <script language="JavaScript" type="text/javascript">
 
 
-    </div>
+            $(document).ready(function () {
+                $("#button").click(function () {
+                    var comment = document.getElementById('newComment').value;
+                    if (comment != ""){
+                        var json ="{restaurant: { id:" + ${restaurant.getId()} + "}, user: { id:" + ${sessionScope.USER.getId()} + "}, comment: " + comment + " }";
+                        $.ajax({
+                            type: "POST",
+                            data: json,
+                            url: "/addComment"
+                        })
+                        location.reload();
+                    }
+                })
+            })
+        </script>
 
-
-
-
-    </body>
 </html>

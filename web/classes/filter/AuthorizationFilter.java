@@ -46,7 +46,6 @@ public class AuthorizationFilter implements Filter {
             } else {
                 String newUrl = ((HttpServletRequest) servletRequest).getHeader("referer").replaceAll("http://localhost:8080", "");
                 ((HttpServletResponse) servletResponse).sendRedirect(newUrl);
-                JOptionPane.showMessageDialog(null, "У вас нет прав!!!");
                 return;
             }
         }

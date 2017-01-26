@@ -5,10 +5,7 @@ import itacademy.restaurants.dao.RestaurantDao;
 import itacademy.restaurants.dao.connection.MySQL;
 import itacademy.restaurants.model.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -72,8 +69,8 @@ public class RestaurantDatabaseDao implements RestaurantDao {
         Set<Restaurant> restaurants = new LinkedHashSet<>();
         try(Connection connection = connections.getConnection()) {
             String sqlQuery = "SELECT `id`, `name`, `website`, `short_information`, `image` FROM restaurants ORDER BY `id` ASC;";
-            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-                try(ResultSet resultSet = statement.executeQuery()) {
+            try(Statement statement = connection.prepareStatement(sqlQuery)) {
+                try(ResultSet resultSet = statement.executeQuery(sqlQuery)) {
                     while (resultSet.next()) {
                         Restaurant restaurant = new Restaurant();
                         restaurant.setId(resultSet.getLong("id"));
@@ -272,7 +269,7 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     }
 
     @Override
-    public List<Comment> getRestaurantComments(long id) throws ExceptionDao {
+    public List<Comment> getRestaurantComments(long id) throws ExceptionDao{
         List<Comment> comments = new ArrayList<>();
         try(Connection connection = connections.getConnection()) {
             String sqlQuery = "SELECT t1.comment, t1.date, t3.username " +
@@ -296,5 +293,21 @@ public class RestaurantDatabaseDao implements RestaurantDao {
         } catch (SQLException e) {
             throw new ExceptionDao("", e);
         }
+    }
+
+    @Override
+    public void addCommentToRestaurant(Comment comment) throws ExceptionDao {
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "INSERT INTO `comments` (`restaurant_id`, `user_id`, `comment`) VALUES (?, ?, ?);";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, comment.getRestaurant().getId());
+                statement.setLong(2, comment.getUser().getId());
+                statement.setString(3, comment.getComment());
+                statement.execute();
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
+
     }
 }

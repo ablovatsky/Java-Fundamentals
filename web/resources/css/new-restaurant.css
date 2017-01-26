@@ -1,0 +1,38 @@
+#newRestaurant {
+    margin-top: 80px;
+}
+
+#newRestaurant p {
+    float: left;
+    width: 250px;
+}
+
+#newRestaurant input textarea {
+    float: left;
+    width:400px;
+}
+
+#newRestaurant div {
+    margin: 10px;
+    min-height: 40px;
+    width: 100%;
+}
+
+#restaurantName, #workingHours, #workingHours, #addresses, #phone, #website {
+    width: 710px;
+}
+
+
+
+#shortInformation {
+    width: 710px;
+}
+
+#information {
+    width: 710px;
+    height: 150px;
+}
+
+#newRestaurant label {
+    width: 160px;
+}

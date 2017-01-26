@@ -127,3 +127,10 @@ ul a{
     -webkit-transition: all 0.6s linear;
 }
 
+#cuisineType {
+    background: #596671;
+    color: white;
+    width: 180px;
+    padding: 5px 10px;
+}
+

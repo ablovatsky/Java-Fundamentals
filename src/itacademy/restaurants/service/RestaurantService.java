@@ -33,4 +33,6 @@ public interface RestaurantService extends ModelService<Restaurant> {
 
     List<Comment> getRestaurantComments(long id);
 
+    void addCommentToRestaurant(Comment comment);
+
 }

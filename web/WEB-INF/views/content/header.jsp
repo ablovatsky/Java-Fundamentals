@@ -21,7 +21,7 @@
                 <div class="d_ul">
                 </div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}">Рестораны</a></li>
+                        <li><a href="${pageContext.request.contextPath}/administration/restaurants">Рестораны</a></li>
                         <li><a href="${pageContext.request.contextPath}">Адреса</a></li>
                         <li><a href="${pageContext.request.contextPath}/administration/users">Пользователи</a></li>
                     </ul>

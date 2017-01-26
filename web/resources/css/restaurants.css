@@ -71,6 +71,9 @@ table #td_img {
     float: left;
     width: 200px;
     height: 200px;
+    background: white; /* Цвет фона */
+    box-shadow: 0 0 15px rgba(0,0,0,0.6); /* Параметры тени */
+
 }
 #rest_inf {
     padding: 0px 10px;
@@ -88,6 +91,22 @@ table #td_img {
 .restaurants {
     float: left;
     width: 770px;
+}
+
+#newRestaurant {
+    width: 770px;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+#newRestaurant button {
+    height: 100px;
+    width: 200px;
+    font-size: 25px;
+    color: #286090;
+    background: none;
+    /* background: white; */
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
 }
 
 .left_menu {
