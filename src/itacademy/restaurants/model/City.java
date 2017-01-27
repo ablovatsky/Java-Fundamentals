@@ -6,7 +6,15 @@ public class City extends Model{
 
     private Country country;
 
+    public City() {
+    }
+
     public City(String name) {
+        this.name = name;
+    }
+
+    public City(long id, String name) {
+        super(id);
         this.name = name;
     }
 
@@ -39,6 +47,9 @@ public class City extends Model{
 
     @Override
     public String toString() {
-        return name + ", " + country.getName();
+        return "City{" +
+                "name='" + name + '\'' +
+                ", country=" + country +
+                '}';
     }
 }

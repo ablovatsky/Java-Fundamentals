@@ -1,13 +1,16 @@
 package itacademy.restaurants.model;
 
-import java.util.Set;
+import java.util.*;
 
 
 public class Country extends Model {
 
     private String name;
 
-    Set<City> cities;
+    private Set<City> cities;
+
+    public Country() {
+    }
 
     public Country(String name) {
         this.name = name;
@@ -33,4 +36,14 @@ public class Country extends Model {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public Set<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(Set<City> cities) {
+        this.cities = cities;
+    }
+
+
 }

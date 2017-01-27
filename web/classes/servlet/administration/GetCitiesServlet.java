@@ -1,13 +1,9 @@
-package servlet.content;
-
+package servlet.administration;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
-import itacademy.restaurants.model.Comment;
-import itacademy.restaurants.service.RestaurantService;
-import itacademy.restaurants.service.impl.RestaurantDatabaseService;
+import itacademy.restaurants.model.City;
+import itacademy.restaurants.model.Country;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,13 +14,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = "/addComment")
-public class CommentServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/administration/getCities")
+public class GetCitiesServlet extends HttpServlet{
 
-    private RestaurantService restaurantService;
-
-    public CommentServlet() {
-        restaurantService = RestaurantDatabaseService.getInstance();
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doGet(req, resp);
     }
 
     @Override
@@ -32,11 +27,12 @@ public class CommentServlet extends HttpServlet {
         resp.setContentType("application/json");
         JsonReader reader = new JsonReader(new InputStreamReader(req.getInputStream(), "UTF-8"));
         reader.setLenient(true);
-        Comment comment = new Gson().fromJson(reader, Comment.class);
-        restaurantService.addCommentToRestaurant(comment);
+        Country country = new Gson().fromJson(reader, Country.class);
+        Gson gson = new Gson();
+        String cities = gson.toJson(country.getCities());
         reader.close();
         PrintWriter printWriter = resp.getWriter();
         printWriter.print("OK");
-
+        printWriter.flush();
     }
 }

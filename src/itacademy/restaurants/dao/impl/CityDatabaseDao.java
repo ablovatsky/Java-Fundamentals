@@ -6,6 +6,7 @@ import itacademy.restaurants.model.Country;
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.model.City;
 import java.sql.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -75,7 +76,25 @@ public class CityDatabaseDao implements CityDao {
 
     @Override
     public Set<City> getAll() throws ExceptionDao {
-        return null;
+        Set<City> cities = new HashSet<>();
+        try(Connection connection = connections.getConnection()) {
+            String strSql = ("SELECT t1.name AS cityName, t2.name AS countryName " +
+                                "FROM cities t1 " +
+                                "INNER JOIN countries t2 ON t1.country_id = t2.id");
+            try(PreparedStatement statement = connection.prepareStatement(strSql)) {
+                try(ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        City city = new City();
+                        city.setName(resultSet.getString("cityName"));
+                        city.setCountry(new Country(resultSet.getString("countryName")));
+                        cities.add(city);
+                    }
+                    return cities;
+                }
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
     }
 
     @Override

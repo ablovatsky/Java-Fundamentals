@@ -19,10 +19,30 @@
     width: 100%;
 }
 
-#restaurantName, #workingHours, #workingHours, #addresses, #phone, #website {
+#restaurantName, #workingHours, #workingHours, #phone, #website {
     width: 710px;
 }
 
+#addresses {
+    float: left;
+    width: 346px;
+    margin-right: 5px;
+}
+
+#country, #city {
+    float: left;
+    width: 150px;
+    margin: 0px 5px;
+    height: 33px;
+}
+#add-address {
+    float: left;
+    height: 33px;
+    width: 33px;
+    padding: 0px;
+    font-size: 25px;
+    margin-left: 5px;
+}
 
 
 #shortInformation {

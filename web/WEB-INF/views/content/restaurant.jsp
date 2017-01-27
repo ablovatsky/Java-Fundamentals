@@ -98,10 +98,12 @@
                             data: json,
                             url: "/addComment",
                             success: function(res) {
+                                alert("True");
                                 location.reload();
                             },
                             error: function(res) {
                                 location.reload();
+                                alert("False");
                             }
                         })
 

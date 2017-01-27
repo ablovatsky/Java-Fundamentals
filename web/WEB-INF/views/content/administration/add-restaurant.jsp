@@ -21,6 +21,7 @@
     <body>
     <jsp:include page="../header.jsp"/>
     <c:set var="cuisines" value="${requestScope.cuisines}"/>
+    <c:set var="countries" value="${requestScope.countries}"/>
     <div id="newRestaurant">
         <div>
             <p>Изображение ресторана *: </p>
@@ -51,7 +52,18 @@
             <p>Телефон *: </p> <input id="phone" name="phone" type="text" class="form-control" placeholder="Номер телефона" />
         </div>
         <div>
-            <p>Адрес *: </p> <input id="addresses" name="addresses" type="text" class="form-control" placeholder="Адрес" />
+            <p>Адрес *: </p>
+            <input id="addresses" name="addresses" type="text" class="form-control" placeholder="Адрес ресторана" disabled />
+            <select size="1" id="country" name="search_type">
+                <option value="">Выберите страну</option>
+                <c:forEach var="country" items="${countries}">
+                    <option value=${country.getId()}>${country.getName()}</option>
+                </c:forEach>
+            </select>
+            <select size="1" id="city" name="search_type">
+                <option value="">Выберите город</option>
+            </select>
+            <button id="add-address" class="btn btn-lg btn-primary btn-block " type="button" >+</button>
         </div>
         <div>
             <p>Вэб сайт *: </p> <input id="website" name="website" type="text" class="form-control" placeholder="Вэб сайт" />
@@ -61,6 +73,20 @@
 
 
         <script language="JavaScript" type="text/javascript">
+            $("#country")
+                .change(function () {
+                    $( "#country").find("option:selected" ).each(function() {
+                        var json ="{country: {id:" + $(this).val() + "}}";
+                        $.ajax({
+                            type: "POST",
+                            data: json,
+                            url: "/administration/getCities"
+                        })
+                        $("#city").html('<option value="">Выберите город</option><option value="">'+$(this).text()+'</option>');
+                    });
+
+                })
+                .change();
 
 
             $(document).ready(function () {
@@ -70,16 +96,7 @@
                         if (cuisines[i].checked) {
                             alert( cuisines[i].value );
                         }
-                   /* var comment = document.getElementById('newComment').value;
-                    if (comment != ""){
-                        var json ="{restaurant: { id:" + ${restaurant.getId()} + "}, user: { id:" + ${sessionScope.USER.getId()} + "}, comment: " + comment + " }";
-                        $.ajax({
-                            type: "POST",
-                            data: json,
-                            url: "/addComment"
-                        })
-                        location.reload();
-                    }*/
+
                 })
             })
         </script>
