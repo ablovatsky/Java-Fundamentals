@@ -47,9 +47,6 @@ public class City extends Model{
 
     @Override
     public String toString() {
-        return "City{" +
-                "name='" + name + '\'' +
-                ", country=" + country +
-                '}';
+        return name + ", " + country.getName() ;
     }
 }

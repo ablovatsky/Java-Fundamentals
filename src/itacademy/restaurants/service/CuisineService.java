@@ -1,5 +1,6 @@
 package itacademy.restaurants.service;
 
+import dto.CuisinesListDto;
 import itacademy.restaurants.model.Cuisine;
 
 /**
@@ -8,4 +9,5 @@ import itacademy.restaurants.model.Cuisine;
 public interface CuisineService extends ModelService<Cuisine> {
 
     Cuisine getCuisineByName(String name);
+    CuisinesListDto getCuisines();
 }

@@ -52,7 +52,7 @@ public class UserDatabaseService implements UserService {
     }
 
     @Override
-    public void add(User user) throws ExceptionService, ExceptionDao, SQLException {
+    public void add(User user){
         this.userDao.add(user);
     }
 

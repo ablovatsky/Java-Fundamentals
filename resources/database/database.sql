@@ -100,7 +100,7 @@ INSERT INTO restaurants.cuisines (name) VALUES ('Баскская');
 INSERT INTO restaurants.cuisines (name) VALUES ('Испанская');
 INSERT INTO restaurants.cuisines (name) VALUES ('Итальянская');
 INSERT INTO restaurants.cuisines (name) VALUES ('Скандинавская');
-INSERT INTO restaurants.cuisines (name) VALUES ('Центральноевропейская');
+INSERT INTO restaurants.cuisines (name) VALUES ('Европейская');
 INSERT INTO restaurants.cuisines (name) VALUES ('Японская');
 
 -- Table: countries
@@ -153,8 +153,12 @@ CREATE TABLE `address` (
   `restaurant_id`     BIGINT(20)  NOT NULL,
   `city_id`           BIGINT(20)  NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`),
+  FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 INSERT INTO restaurants.address (restaurant_id, city_id) VALUES (1, 6);
@@ -179,8 +183,12 @@ CREATE TABLE `restaurant_cuisine` (
   `restaurant_id`     BIGINT(20)  NOT NULL,
   `cuisine_id`        BIGINT(20)  NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`),
+  FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   FOREIGN KEY (`cuisine_id`) REFERENCES `cuisines` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 INSERT INTO restaurants.restaurant_cuisine (restaurant_id, cuisine_id) VALUES (1, 7);

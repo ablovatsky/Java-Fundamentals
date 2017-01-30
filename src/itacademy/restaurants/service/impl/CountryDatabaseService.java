@@ -40,7 +40,7 @@ public class CountryDatabaseService implements CountryService {
     }
 
     @Override
-    public void add(Country model) throws ExceptionService, ExceptionDao, SQLException {
+    public void add(Country model) {
 
     }
 

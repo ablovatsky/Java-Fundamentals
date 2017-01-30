@@ -1,5 +1,6 @@
 package itacademy.restaurants.service.impl;
 
+import dto.CuisinesListDto;
 import itacademy.restaurants.dao.CuisineDao;
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.dao.impl.CuisineDatabaseDao;
@@ -40,7 +41,12 @@ public class CuisineDatabaseService implements CuisineService {
     }
 
     @Override
-    public void add(Cuisine model) throws ExceptionService, ExceptionDao, SQLException {
+    public CuisinesListDto getCuisines() {
+        return new CuisinesListDto(this.cuisineDao.getAll());
+    }
+
+    @Override
+    public void add(Cuisine model) {
 
     }
 

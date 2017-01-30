@@ -52,7 +52,7 @@ public class RegistrationServlet extends HttpServlet {
                 resp.sendRedirect(RESTAURANTS_URL);
                 return;
 
-            } catch (ExceptionService | ExceptionDao | SQLException exceptionService) {
+            } catch (ExceptionDao exceptionService) {
                 exceptionService.printStackTrace();
             }
         }

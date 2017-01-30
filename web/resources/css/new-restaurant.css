@@ -19,6 +19,16 @@
     width: 100%;
 }
 
+#cuisines {
+    float: left;
+    width: 710px !important;
+    margin: 0px !important;
+}
+
+#cuisines input[type=checkbox] {
+    margin: 0px 5px 0px 0px;
+}
+
 #restaurantName, #workingHours, #workingHours, #phone, #website {
     width: 710px;
 }
@@ -29,7 +39,7 @@
     margin-right: 5px;
 }
 
-#country, #city {
+#countries, #cities {
     float: left;
     width: 150px;
     margin: 0px 5px;
@@ -55,5 +65,6 @@
 }
 
 #newRestaurant label {
-    width: 160px;
+    width: 157px;
+    vertical-align: middle;
 }

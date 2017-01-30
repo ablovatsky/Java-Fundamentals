@@ -1,6 +1,7 @@
 package itacademy.restaurants.service;
 
 
+import dto.RestaurantsListDto;
 import itacademy.restaurants.model.*;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Set;
  */
 public interface RestaurantService extends ModelService<Restaurant> {
 
-    Set<Restaurant> getRestaurantsByName(String name);
+
 
     Set<Cuisine> getRestaurantCuisines(Restaurant restaurant);
 
@@ -19,20 +20,24 @@ public interface RestaurantService extends ModelService<Restaurant> {
 
     void removeCuisineFromRestaurant(Restaurant restaurant, Cuisine cuisine);
 
-    Set<Restaurant> getRestaurantsByCuisine(String name);
-
     Set<City> getRestaurantAddresses(Restaurant restaurant);
 
     void addAddressToRestaurant(Restaurant restaurant, City city);
 
     void removeAddressFromRestaurant(Restaurant restaurant, City city);
 
-    Set<Restaurant> getRestaurantsByCity(String name);
+    RestaurantsListDto getRestaurantsByCuisine(String name);
 
-    Set<Restaurant> getRestaurantsByCountry(String name);
+    RestaurantsListDto getRestaurantsByName(String name);
+
+    RestaurantsListDto getRestaurantsByCity(String name);
+
+    RestaurantsListDto getRestaurantsByCountry(String name);
 
     List<Comment> getRestaurantComments(long id);
 
     void addCommentToRestaurant(Comment comment);
+
+    RestaurantsListDto getRestaurants();
 
 }

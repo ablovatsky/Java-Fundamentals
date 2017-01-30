@@ -1,5 +1,6 @@
 package servlet.content;
 
+import dto.RestaurantsListDto;
 import itacademy.restaurants.model.Restaurant;
 
 import javax.servlet.ServletException;
@@ -20,8 +21,8 @@ public class ShowImageServlet extends HttpServlet {
         resp.setContentType("image/jpeg");
         OutputStream out = resp.getOutputStream();
         int index = Integer.valueOf(req.getParameter("index"));
-        LinkedHashSet<Restaurant> restaurants = (LinkedHashSet<Restaurant>) req.getSession(false).getAttribute("restaurants");
-        restaurants.forEach((restaurant) -> {
+        RestaurantsListDto restaurants = (RestaurantsListDto) req.getSession(false).getAttribute("restaurants");
+        restaurants.getRestaurants().forEach((restaurant) -> {
             if (restaurant.getId() == index) {
                 resp.setContentLength(restaurant.getImage().length);
                 try {

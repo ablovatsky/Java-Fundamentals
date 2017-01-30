@@ -1,5 +1,7 @@
 package servlet.administration;
 
+import com.google.gson.Gson;
+import itacademy.restaurants.Json;
 import itacademy.restaurants.service.CountryService;
 import itacademy.restaurants.service.CuisineService;
 import itacademy.restaurants.service.RestaurantService;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = "/administration/add-restaurants")
 public class AddRestaurantServlet extends HttpServlet {
@@ -32,14 +35,23 @@ public class AddRestaurantServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
-        req.setAttribute("cuisines", cuisineService.getAll());
-        req.setAttribute("countries", countryService.getAll());
+        //req.setAttribute("cuisines", cuisineService.getAll());
+        //req.setAttribute("countries", countryService.getAll());
         dispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Json.Builder builder = Json.newBuilder();
+        String json = builder.addObject("cuisines", cuisineService.getAll())
+                .addObject("countries", countryService.getAll())
+                .createObject("user")
+                .getJson();
+        PrintWriter writer = resp.getWriter();
+        writer.print(json);
+
 
     }
 }

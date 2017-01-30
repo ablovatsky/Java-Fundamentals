@@ -38,12 +38,8 @@ public class CityDatabaseService implements CityService {
     }
 
     @Override
-    public void add(City city) throws ExceptionService {
-        try {
-            this.cityDao.add(city);
-        } catch (ExceptionDao exceptionDao) {
-            throw new ExceptionService("", exceptionDao);
-        }
+    public void add(City city){
+        this.cityDao.add(city);
     }
 
     @Override

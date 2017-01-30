@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public interface ModelService<T extends Model> {
 
-    void add(T model) throws ExceptionService, ExceptionDao, SQLException;
+    void add(T model);
 
     boolean update(T model);
 

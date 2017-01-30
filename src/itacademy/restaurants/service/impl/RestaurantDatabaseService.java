@@ -1,5 +1,6 @@
 package itacademy.restaurants.service.impl;
 
+import dto.RestaurantsListDto;
 import itacademy.restaurants.dao.ExceptionDao;
 import itacademy.restaurants.dao.RestaurantDao;
 import itacademy.restaurants.dao.impl.RestaurantDatabaseDao;
@@ -36,7 +37,7 @@ public class RestaurantDatabaseService implements RestaurantService {
     }
 
     @Override
-    public void add(Restaurant restaurant) throws ExceptionService, ExceptionDao, SQLException {
+    public void add(Restaurant restaurant)  {
         this.restaurantDao.add(restaurant);
     }
 
@@ -60,10 +61,6 @@ public class RestaurantDatabaseService implements RestaurantService {
         return this.restaurantDao.getAll();
     }
 
-    @Override
-    public Set<Restaurant> getRestaurantsByName(String name) {
-        return this.restaurantDao.getRestaurantsByName(name);
-    }
 
     @Override
     public Set<Cuisine> getRestaurantCuisines(Restaurant restaurant) {
@@ -78,11 +75,6 @@ public class RestaurantDatabaseService implements RestaurantService {
     @Override
     public void removeCuisineFromRestaurant(Restaurant restaurant, Cuisine cuisine) {
 
-    }
-
-    @Override
-    public Set<Restaurant> getRestaurantsByCuisine(String name) {
-        return this.restaurantDao.getRestaurantsByCuisine(name);
     }
 
     @Override
@@ -101,13 +93,23 @@ public class RestaurantDatabaseService implements RestaurantService {
     }
 
     @Override
-    public Set<Restaurant> getRestaurantsByCity(String name) {
-        return this.restaurantDao.getRestaurantsByCity(name);
+    public RestaurantsListDto getRestaurantsByCuisine(String name) {
+        return new RestaurantsListDto(this.restaurantDao.getRestaurantsByCuisine(name));
     }
 
     @Override
-    public Set<Restaurant> getRestaurantsByCountry(String name) {
-        return this.restaurantDao.getRestaurantsByCountry(name);
+    public RestaurantsListDto getRestaurantsByName(String name) {
+        return new RestaurantsListDto(this.restaurantDao.getRestaurantsByName(name));
+    }
+
+    @Override
+    public RestaurantsListDto getRestaurantsByCity(String name) {
+        return new RestaurantsListDto(this.restaurantDao.getRestaurantsByCity(name));
+    }
+
+    @Override
+    public RestaurantsListDto getRestaurantsByCountry(String name) {
+        return new RestaurantsListDto(this.restaurantDao.getRestaurantsByCountry(name));
     }
 
     @Override
@@ -118,5 +120,10 @@ public class RestaurantDatabaseService implements RestaurantService {
     @Override
     public void addCommentToRestaurant(Comment comment) {
         this.restaurantDao.addCommentToRestaurant(comment);
+    }
+
+    @Override
+    public RestaurantsListDto getRestaurants() {
+        return new RestaurantsListDto(this.restaurantDao.getAll());
     }
 }

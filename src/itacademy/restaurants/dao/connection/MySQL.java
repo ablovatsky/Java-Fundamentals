@@ -15,8 +15,8 @@ public enum MySQL {
 
     CONNECTIONS;
 
-    //private String propertyFilePath = "e:\\Java\\restaurants\\restaurants\\resources\\database\\database.properties";
-    private String propertyFilePath = "d:\\11.Course\\restaurants\\restaurants\\resources\\database\\database.properties";
+    private String propertyFilePath = "e:\\Java\\restaurants\\restaurants\\resources\\database\\database.properties";
+    //private String propertyFilePath = "d:\\11.Course\\restaurants\\restaurants\\resources\\database\\database.properties";
 
 
     private DataSource dataSource;
@@ -41,9 +41,6 @@ public enum MySQL {
         readConfig();
         PoolProperties poolProperties = new PoolProperties();
         poolProperties.setTestOnConnect(true);
-        poolProperties.setMaxActive(100);
-        poolProperties.setMaxIdle(30);
-        poolProperties.setMaxWait(1000);
         poolProperties.setRemoveAbandoned(true);
         poolProperties.setRemoveAbandonedTimeout(30);
         poolProperties.setLogAbandoned(true);

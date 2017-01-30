@@ -23,6 +23,49 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     @Override
     public long add(Restaurant restaurant) throws ExceptionDao {
         long id = 0;
+        Connection connection = connections.getConnection();
+        try {
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false);
+            String sqlQuery = "INSERT INTO `restaurants` (`name`, `phone`, `website`, `working_hours`, `short_information`, `information`, `image`) VALUES(?, ?, ?, ?, ?, ?, ?);";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
+                statement.setString(1, restaurant.getName());
+                statement.setString(2, restaurant.getPhone());
+                statement.setString(3, restaurant.getWebsite());
+                statement.setString(4, restaurant.getWorkingHours());
+                statement.setString(5, restaurant.getShortInformation());
+                statement.setString(6, restaurant.getInformation());
+                statement.setBlob(7, restaurant.getLoadingImage());
+                statement.executeUpdate();
+                try(ResultSet resultSet = statement.getGeneratedKeys()) {
+                    if (resultSet.next()) {
+                        id = resultSet.getLong(1);
+                    }
+                }
+            }
+            sqlQuery = "INSERT INTO `restaurant_cuisine` (`restaurant_id`, `cuisine_id`) VALUES (?, ?);";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                for (Cuisine cuisine : restaurant.getCuisines()) {
+                    statement.setLong(1, id);
+                    statement.setLong(2, cuisine.getId());
+                    statement.executeUpdate();
+                }
+            }
+            sqlQuery = "INSERT INTO `address` (`restaurant_id`, `city_id`) VALUES (?, ?);";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                for (City city : restaurant.getAddresses()) {
+                    statement.setLong(1, id);
+                    statement.setLong(2, city.getId());
+                    statement.executeUpdate();
+                }
+            }
+            connections.commitConnection(connection);
+        } catch (SQLException e) {
+            connections.rollbackConnection(connection);
+            throw new ExceptionDao("",e);
+        } finally {
+            connections.closeConnection(connection);
+        }
         return id;
     }
 

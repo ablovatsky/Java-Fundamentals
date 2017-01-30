@@ -47,7 +47,7 @@
         <div id="addressesText">Адресс: </div>
         <div id="addressesValue">
                 <c:forEach var="address" items="${restaurant.addresses}">
-                ${address.toString()}<br/>
+                ${address.toString()}
             </c:forEach>
         </div>
         <br/>

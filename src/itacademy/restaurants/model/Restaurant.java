@@ -1,5 +1,6 @@
 package itacademy.restaurants.model;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +27,8 @@ public class Restaurant extends Model {
 
     private List<Comment> comments;
 
+    private InputStream loadingImage;
+
     public Restaurant(long id, String name, String website, String shortInformation, String workingHours, byte[] image, Set<City> addresses) {
         super(id);
         this.name = name;
@@ -37,6 +40,17 @@ public class Restaurant extends Model {
     }
 
     public Restaurant() {
+    }
+
+    public Restaurant(String name, String website, String shortInformation, String phone, String workingHours, Set<City> addresses, Set<Cuisine> cuisines, String information) {
+        this.name = name;
+        this.website = website;
+        this.shortInformation = shortInformation;
+        this.phone = phone;
+        this.workingHours = workingHours;
+        this.addresses = addresses;
+        this.cuisines = cuisines;
+        this.information = information;
     }
 
     public String getName() {
@@ -117,6 +131,14 @@ public class Restaurant extends Model {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public InputStream getLoadingImage() {
+        return loadingImage;
+    }
+
+    public void setLoadingImage(InputStream loadingImage) {
+        this.loadingImage = loadingImage;
     }
 
     @Override
