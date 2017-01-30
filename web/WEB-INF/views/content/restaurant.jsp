@@ -83,7 +83,7 @@
             </p>
             <textarea id="newComment" rows="10" cols="116" name="text"></textarea>
         </label>
-        <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" >Добавить</button>
+
 
         <script language="JavaScript" type="text/javascript">
 

@@ -70,13 +70,74 @@ public class RestaurantDatabaseDao implements RestaurantDao {
     }
 
     @Override
-    public boolean update(Restaurant model) throws ExceptionDao {
-        return false;
+    public boolean update(Restaurant restaurant) throws ExceptionDao {
+        Connection connection = connections.getConnection();
+        try {
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false);
+            String sqlQuery = "UPDATE `restaurants`SET `name` = ?, `phone` = ?, `website` = ?, `working_hours` = ?, `short_information` = ?, `information` = ?, `image` = ? WHERE `id` = ?;";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setString(1, restaurant.getName());
+                statement.setString(2, restaurant.getPhone());
+                statement.setString(3, restaurant.getWebsite());
+                statement.setString(4, restaurant.getWorkingHours());
+                statement.setString(5, restaurant.getShortInformation());
+                statement.setString(6, restaurant.getInformation());
+                statement.setBlob(7, restaurant.getLoadingImage());
+                statement.setLong(8, restaurant.getId());
+                statement.executeUpdate();
+            }
+            sqlQuery = "DELETE FROM `restaurant_cuisine` WHERE `restaurant_id` = ?;";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, restaurant.getId());
+                statement.executeUpdate();
+
+            }
+            sqlQuery = "INSERT INTO `restaurant_cuisine` (`restaurant_id`, `cuisine_id`) VALUES (?, ?);";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                for (Cuisine cuisine : restaurant.getCuisines()) {
+                    statement.setLong(1, restaurant.getId());
+                    statement.setLong(2, cuisine.getId());
+                    statement.executeUpdate();
+                }
+            }
+            sqlQuery = "DELETE FROM `address` WHERE `restaurant_id` = ?;";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, restaurant.getId());
+                statement.executeUpdate();
+
+            }
+            sqlQuery = "INSERT INTO `address` (`restaurant_id`, `city_id`) VALUES (?, ?);";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                for (City city : restaurant.getAddresses()) {
+                    statement.setLong(1, restaurant.getId());
+                    statement.setLong(2, city.getId());
+                    statement.executeUpdate();
+                }
+            }
+            connections.commitConnection(connection);
+            return true;
+        } catch (SQLException e) {
+            connections.rollbackConnection(connection);
+            throw new ExceptionDao("",e);
+        } finally {
+            connections.closeConnection(connection);
+        }
     }
 
     @Override
-    public boolean remove(Restaurant model) throws ExceptionDao {
-        return false;
+    public boolean remove(Restaurant restaurant) throws ExceptionDao {
+        try(Connection connection = connections.getConnection()) {
+            String sqlQuery = "DELETE FROM `restaurants` WHERE `id` = ?;";
+            try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+                statement.setLong(1, restaurant.getId());
+                statement.execute();
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new ExceptionDao("", e);
+        }
+
     }
 
 
@@ -94,6 +155,7 @@ public class RestaurantDatabaseDao implements RestaurantDao {
                         restaurant.setPhone(resultSet.getString("phone"));
                         restaurant.setWorkingHours(resultSet.getString("working_hours"));
                         restaurant.setWebsite(resultSet.getString("website"));
+                        restaurant.setShortInformation(resultSet.getString("short_information"));
                         restaurant.setInformation(resultSet.getString("information"));
                         restaurant.setImage(resultSet.getBytes("image"));
                     }
@@ -319,7 +381,7 @@ public class RestaurantDatabaseDao implements RestaurantDao {
                     "FROM comments t1 " +
                     "INNER JOIN restaurants t2 ON t1.restaurant_id = t2.id " +
                     "INNER JOIN users t3 ON t1.user_id = t3.id " +
-                    "WHERE t2.id = ?;";
+                    "WHERE t2.id = ? ORDER BY t1.date DESC;";
             try(PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
                 statement.setLong(1, id);
                 try(ResultSet resultSet = statement.executeQuery()) {

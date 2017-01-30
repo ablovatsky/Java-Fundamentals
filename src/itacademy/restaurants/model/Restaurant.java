@@ -29,6 +29,10 @@ public class Restaurant extends Model {
 
     private InputStream loadingImage;
 
+    public Restaurant(long id) {
+        super(id);
+    }
+
     public Restaurant(long id, String name, String website, String shortInformation, String workingHours, byte[] image, Set<City> addresses) {
         super(id);
         this.name = name;

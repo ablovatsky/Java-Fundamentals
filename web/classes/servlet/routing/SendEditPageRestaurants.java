@@ -22,4 +22,12 @@ public class SendEditPageRestaurants extends HttpServlet{
         dispatcher.forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
+        session.setAttribute("routing", "edit");
+        dispatcher.forward(req, resp);
+    }
+
 }

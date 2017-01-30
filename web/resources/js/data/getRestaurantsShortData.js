@@ -22,6 +22,19 @@ function fillPageRestaurants(data) {
 
     var divRestaurants = document.getElementById("restaurants");
     divRestaurants.innerHTML = '';
+    if (totalRouting == "edit") {
+        var form = document.createElement("form");
+        form.action = "/administration/add-restaurants";
+        form.method = "GET";
+        var newRestaurant = document.createElement("div");
+        newRestaurant.id = "newRestaurant";
+        var button = document.createElement("button");
+        button.innerHTML = "Добавить ресторан";
+        newRestaurant.appendChild(button);
+        form.appendChild(newRestaurant);
+        divRestaurants.appendChild(form);
+
+    }
     data.restaurants.forEach(function (restaurant) {
         var br = document.createElement("br");
         var divRestaurant = document.createElement("div");
@@ -40,7 +53,7 @@ function fillPageRestaurants(data) {
         if (totalRouting == "edit") {
             deleteRestaurant.href = "/delete?id=" + restaurant.id;
             deleteRestaurant.innerHTML = "   Удалить";
-            aName.href = "/restaurant?id=" + restaurant.id;
+            aName.href = "/administration/restaurant?id=" + restaurant.id;
             aName.innerHTML = restaurant.name + "   \tРедактировать";
         } else {
             aName.href = "/restaurant?id=" + restaurant.id;

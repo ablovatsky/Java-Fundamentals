@@ -113,6 +113,8 @@
     border: solid 1px #204d74;
     border-radius: 6px 6px 0px 0px;
     margin: 10px 10px;
+    width: 950px;
+    float: left;
 }
 
 #comments label {
@@ -158,4 +160,27 @@ textarea {
 #textComment {
     width: 100%;
     padding: 40px 10px 0px;
+}
+
+#button {
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #286090;
+    margin: 0px 10px 10px 0px;
+    width: 140px;
+    height: 38px;
+    padding: 2px;
+    float: right;
+    border: 1px solid transparent;
+
+}
+.download {
+    width: 970px;
+    float: left;
+}
+#dButton {
+    float: right;
+    width: 970px;
 }

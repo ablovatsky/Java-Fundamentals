@@ -6,8 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="en_US"/>
+<fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="translations"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -26,15 +27,15 @@
     </head>
 
     <body>
-
+        <jsp:include page="lang.jsp"/>
         <div class="">
             <form method="POST" action="${pageContext.request.contextPath}/login" class="form-signin">
-                <h2 class="form-heading">Авторизация</h2>
+                <h2 class="form-heading"><fmt:message key="authentication"/></h2>
                 <input name="username" type="text" class="form-control" placeholder="<fmt:message key="username"/>" autofocus="true"/>
                 <input name="password" type="password" class="form-control" placeholder="<fmt:message key="password"/>"/>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Авторизоваться</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="login"/></button>
             </form>
-            <h4 class="text-center"><a href="${pageContext.request.contextPath}/registration">Регистрация</a></h4>
+            <h4 class="text-center"><a href="${pageContext.request.contextPath}/registration"><fmt:message key="regestration"/></a></h4>
          </div>
     <!-- /container -->
     </body>

@@ -16,7 +16,17 @@ public class SendPageRestaurant extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //sdfdf
+
+        HttpSession session = req.getSession();
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
+        session.setAttribute("routing", "views");
+        String id = req.getParameter("id");
+        session.setAttribute("restaurant", id);
+        dispatcher.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
         session.setAttribute("routing", "views");

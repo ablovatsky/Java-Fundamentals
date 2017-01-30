@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="translations"/>
 <html>
     <head>
         <title>Ресторан</title>
@@ -27,43 +30,43 @@
 
     <div id="newRestaurant">
         <div>
-            <p>Изображение ресторана *: </p>
+            <p><fmt:message key="restaurantImage"/> *: </p>
                 <input id="image" type="file" name="image" multiple accept="image/*,image/jpeg"/>
         </div>
         <div>
-            <p>Название ресторана *: </p> <input id="restaurantName" type="text" class="form-control" placeholder="Название ресторана" />
+            <p><fmt:message key="restaurantName"/> *: </p> <input id="restaurantName" type="text" class="form-control" placeholder="<fmt:message key="restaurantName"/>" />
         </div>
         <div>
-            <p>Краткая информация *:</p> <textarea id="shortInformation" rows="4" cols="20" name="text"></textarea>
+            <p><fmt:message key="shortInformation"/> *:</p> <textarea id="shortInformation" rows="4" cols="20" name="text"></textarea>
         </div>
         <div>
-            <p>Полная информация *:</p> <textarea id="information" rows="4" cols="20" name="text"></textarea>
+            <p><fmt:message key="fullInformation"/> *:</p> <textarea id="information" rows="4" cols="20" name="text"></textarea>
         </div>
         <div >
-            <p>Тип кухни *: </p>
+            <p><fmt:message key="cuisines"/> *: </p>
             <div id="cuisines">
             </div>
         </div>
         <div>
-            <p>Время работы *: </p> <input id="workingHours" name="workingHours" type="text" class="form-control" placeholder="Время работы" />
+            <p><fmt:message key="workingHours"/> *: </p> <input id="workingHours" name="workingHours" type="text" class="form-control" placeholder="<fmt:message key="workingHours"/>" />
         </div>
         <div>
-            <p>Телефон *: </p> <input id="phone" name="phone" type="text" class="form-control" placeholder="Номер телефона" />
+            <p><fmt:message key="phone"/> *: </p> <input id="phone" name="phone" type="text" class="form-control" placeholder="<fmt:message key="phone"/>" />
         </div>
         <div>
-            <p>Адрес *: </p>
-            <input id="addresses" name="addresses" type="text" class="form-control" placeholder="Адрес ресторана" disabled />
+            <p><fmt:message key="address"/> *: </p>
+            <input id="addresses" name="addresses" type="text" class="form-control" placeholder="<fmt:message key="address"/> " disabled />
             <select size="1" id="countries" name="search_type" OnChange="fillCities()">
-                <option value="0">Выберите страну</option>
+                <option value="0"><fmt:message key="selectCountry"/></option>
             </select>
             <select size="1" id="cities" name="search_type">
-                <option value="0">Выберите город</option>
+                <option value="0"><fmt:message key="selectCity"/></option>
             </select>
             <button id="add-address" class="btn btn-lg btn-primary btn-block " type="button" onclick="addAddress()">+</button>
         </div>
         <div>
-            <p>Вэб сайт *: </p> <input id="website" name="website" type="text" class="form-control" placeholder="Вэб сайт" />
+            <p><fmt:message key="website"/> *:</p> <input id="website" name="website" type="text" class="form-control" placeholder="<fmt:message key="website"/>" />
         </div>
-        <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" onclick="addRestaurant()" >Добавить</button>
+        <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" onclick="addRestaurant()" ><fmt:message key="add"/></button>
     </div>
 </html>

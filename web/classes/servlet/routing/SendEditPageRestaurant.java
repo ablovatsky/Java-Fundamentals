@@ -12,14 +12,25 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/administration/restaurant")
 public class SendEditPageRestaurant extends HttpServlet{
 
-    private static final String RESTAURANTS_URL = "/WEB-INF/views/content/new_restaurant.jsp";
+    private static final String RESTAURANTS_URL = "/WEB-INF/views/content/edit_restaurant.jsp";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
         session.setAttribute("routing", "edit");
-        session.setAttribute("restaurant", req.getAttribute("id"));
+        String id = req.getParameter("id");
+        session.setAttribute("restaurant", id);
+        dispatcher.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
+        session.setAttribute("routing", "edit");
+        String id = req.getParameter("id");
+        session.setAttribute("restaurant", id);
         dispatcher.forward(req, resp);
     }
 

@@ -43,12 +43,12 @@ public class RestaurantDatabaseService implements RestaurantService {
 
     @Override
     public boolean update(Restaurant restaurant) {
-        return false;
+        return this.restaurantDao.update(restaurant);
     }
 
     @Override
     public boolean remove(Restaurant restaurant) {
-        return false;
+        return this.restaurantDao.remove(restaurant);
     }
 
     @Override

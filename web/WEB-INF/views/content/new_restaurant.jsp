@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="translations"/>
 
 <html>
     <head>
@@ -30,7 +33,7 @@
 
             </p>
         </div>
-        <div id="cuisinesText">Кухни: </div>
+        <div id="cuisinesText"><fmt:message key="cuisines"/>: </div>
         <div id="cuisinesValue">
 
         </div>
@@ -47,6 +50,10 @@
         <br/>
         <div id="websiteText">Сайт: </div>
         <div id="websiteValue"></div>
+        <div class="download">
+            <a id="download"></a>
+        </div>
+
 
     </div>
     <div id="comments">
@@ -59,11 +66,12 @@
             </p>
             <textarea id="newComment" rows="10" cols="116" name="text"></textarea>
         </label>
-        <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" >Добавить</button>
+        <div id="dButton">
+            <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" onclick="addComment('${sessionScope.USER.getId()}')">Добавить</button>
+        </div>
+    </div>
 
-        <script language="JavaScript" type="text/javascript">
 
 
-        </script>
 
 </html>

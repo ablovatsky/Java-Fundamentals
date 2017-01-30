@@ -48,10 +48,9 @@ public class AddRestaurantServlet extends HttpServlet {
         String json = builder.addObject("cuisines", cuisineService.getAll())
                 .addObject("countries", countryService.getAll())
                 .createObject("user")
+                .apply()
                 .getJson();
         PrintWriter writer = resp.getWriter();
         writer.print(json);
-
-
     }
 }

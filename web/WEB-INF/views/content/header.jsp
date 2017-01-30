@@ -7,23 +7,24 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="translations"/>
+<jsp:include page="../lang.jsp"/>
 <div class="header">
     <div class="user_menu">
         <ul id="menu">
             <li>
-                <a id="first_li" href="${pageContext.request.contextPath}/restaurants">Рестораны</a>
+                <a id="first_li" href="${pageContext.request.contextPath}/restaurants"><fmt:message key="restaurants"/></a>
             </li>
             <li>
-                Мои отзывы
-            </li>
-            <li>
-                Администрирование
+                <fmt:message key="administration"/>
                 <div class="d_ul">
                 </div>
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/administration/restaurants">Рестораны</a></li>
-                        <li><a href="${pageContext.request.contextPath}">Адреса</a></li>
-                        <li><a href="${pageContext.request.contextPath}/administration/users">Пользователи</a></li>
+                        <li><a href="${pageContext.request.contextPath}/administration/restaurants"><fmt:message key="restaurants"/></a></li>
+                       <%-- <li><a href="${pageContext.request.contextPath}">Адреса</a></li>
+                        <li><a href="${pageContext.request.contextPath}/administration/users">Пользователи</a></li>--%>
                     </ul>
 
             </li>

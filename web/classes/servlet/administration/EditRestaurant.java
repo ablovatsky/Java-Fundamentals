@@ -3,40 +3,36 @@ package servlet.administration;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import itacademy.restaurants.model.Restaurant;
-import itacademy.restaurants.service.ExceptionService;
 import itacademy.restaurants.service.RestaurantService;
 import itacademy.restaurants.service.impl.RestaurantDatabaseService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-import java.io.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 
 @MultipartConfig(maxFileSize = 169999999)
-@WebServlet(urlPatterns = "/loading/image")
-public class LoadImageServlet extends HttpServlet {
-
-    private static final String RESTAURANTS_URL = "/administration/restaurants";
+@WebServlet(urlPatterns = "/edit/restaurant")
+public class EditRestaurant extends HttpServlet {
 
     private RestaurantService restaurantService;
 
-    public LoadImageServlet() {
+    public EditRestaurant() {
         restaurantService = RestaurantDatabaseService.getInstance();
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String imageURL = req.getParameter("imageURL");
-        Path path = Paths.get(imageURL);
-        byte[] data = Files.readAllBytes(path);
-    }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,12 +49,7 @@ public class LoadImageServlet extends HttpServlet {
             image = partFile.getInputStream();
         }
         restaurant.setLoadingImage(image);
-        restaurantService.add(restaurant);
-
-        HttpSession session = req.getSession();
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(RESTAURANTS_URL);
-        session.setAttribute("routing", "edit");
-        dispatcher.forward(req, resp);
+        restaurantService.update(restaurant);
 
     }
 

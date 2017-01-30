@@ -18,14 +18,19 @@ public class ShowImageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String download = req.getParameter("download");
         resp.setContentType("image/jpeg");
         OutputStream out = resp.getOutputStream();
         int index = Integer.valueOf(req.getParameter("index"));
         RestaurantsListDto restaurants = (RestaurantsListDto) req.getSession(false).getAttribute("restaurants");
+
         restaurants.getRestaurants().forEach((restaurant) -> {
             if (restaurant.getId() == index) {
                 resp.setContentLength(restaurant.getImage().length);
                 try {
+                    if (download !=null && download.equals("download")) {
+                        resp.setHeader("Content-Disposition", "attachment;filename=" + restaurant.getName() +".jpg");
+                    }
                     out.write(restaurant.getImage());
                 } catch (IOException e) {
                     e.printStackTrace();
