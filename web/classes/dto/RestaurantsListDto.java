@@ -6,9 +6,7 @@ import itacademy.restaurants.model.Restaurant;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-/**
- * Created by aVa on 29.01.2017.
- */
+
 public class RestaurantsListDto {
 
     private Set<RestaurantShortInformation> restaurants;

@@ -37,18 +37,18 @@
         <div id="cuisinesValue">
 
         </div>
-        <div id="workingHoursText">Время работы: </div>
+        <div id="workingHoursText"><fmt:message key="workingHours"/>: </div>
         <div id="workingHoursValue"></div>
         <br/>
-        <div id="phoneText">Тел.: </div>
+        <div id="phoneText"><fmt:message key="phone"/>: </div>
         <div id="phoneValue"></div>
         <br/>
-        <div id="addressesText">Адресс: </div>
+        <div id="addressesText"><fmt:message key="address"/>: </div>
         <div id="addressesValue">
 
         </div>
         <br/>
-        <div id="websiteText">Сайт: </div>
+        <div id="websiteText"><fmt:message key="website"/>: </div>
         <div id="websiteValue"></div>
         <div class="download">
             <a id="download"></a>
@@ -57,17 +57,17 @@
 
     </div>
     <div id="comments">
-        <p id="headComments">Отзывы</p>
+        <p id="headComments"><fmt:message key="comments"/></p>
 
         <br/>
         <label>
             <p>
-                Добавить коментарий...
+                <fmt:message key="addComment"/>...
             </p>
             <textarea id="newComment" rows="10" cols="116" name="text"></textarea>
         </label>
         <div id="dButton">
-            <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" onclick="addComment('${sessionScope.USER.getId()}')">Добавить</button>
+            <button id="button" class="btn btn-lg btn-primary btn-block button-addComment" type="button" onclick="addComment('${sessionScope.USER.getId()}')"><fmt:message key="add"/></button>
         </div>
     </div>
 
